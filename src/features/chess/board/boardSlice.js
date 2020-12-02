@@ -10,12 +10,9 @@ export const boardSlice = createSlice({
   reducers: {
     resetBoard: (state) => {
       const board = initBoard();
-      console.log(board);
       state.board = board;
     },
-    movePiece: (state, action) => {
-      // TODO
-    },
+    movePiece: (state, action) => {},
   },
 });
 
