@@ -5,9 +5,6 @@ export const pawnMove = (board, startPos, endPos, piece) => {
   const [startRow, startCol] = getIndexesFromPos(startPos);
   const [endRow, endCol] = getIndexesFromPos(endPos);
   const endPosPiece = getPieceFromBoardPos(board, endPos);
-  console.log(`startRow: ${startRow}, startCol: ${startCol}`);
-  console.log(`endRow: ${endRow}, endCol: ${endCol}`);
-  console.log(`endPosPiece: ${endPosPiece}`);
 
   // Case 1: Move forward one
   // Case 2: First move 2 moves forward
