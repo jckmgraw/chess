@@ -28,13 +28,13 @@ export const pawnMove = (board, startPos, endPos, piece) => {
       return false;
     }
     // Cases 1 & 2
-    if (endPosPiece === 0) {
-      if (startRow === 1 && Math.abs(endRow - startRow) <= 2) {
-        return true;
-      }
-      if (Math.abs(endRow - startRow) === 1) {
-        return true;
-      }
+    if (
+      endPosPiece === 0 &&
+      ((startRow === 1 && Math.abs(endRow - startRow) <= 2) ||
+        Math.abs(endRow - startRow) === 1) &&
+      board[startRow + 1][startCol] === 0
+    ) {
+      return true;
     }
     return false;
   } else if (piece === ENV.BLACK_PAWN) {
@@ -53,13 +53,13 @@ export const pawnMove = (board, startPos, endPos, piece) => {
       return false;
     }
     // Cases 1 & 2
-    if (endPosPiece === 0) {
-      if (startRow === 6 && Math.abs(endRow - startRow) <= 2) {
-        return true;
-      }
-      if (Math.abs(endRow - startRow) === 1) {
-        return true;
-      }
+    if (
+      endPosPiece === 0 &&
+      ((startRow === 6 && Math.abs(endRow - startRow) <= 2) ||
+        Math.abs(endRow - startRow) === 1) &&
+      board[startRow - 1][startCol] === 0
+    ) {
+      return true;
     }
     return false;
   } else {
