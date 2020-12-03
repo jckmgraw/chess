@@ -28,7 +28,7 @@ export const initBoard = () => {
     whitePawnRow.push(ENV.WHITE_PAWN);
     blackPawnRow.push(ENV.BLACK_PAWN);
   }
-  const emptyRow = [null, null, null, null, null, null, null, null];
+  const emptyRow = [0, 0, 0, 0, 0, 0, 0, 0];
   return [
     whiteBackRow,
     whitePawnRow,

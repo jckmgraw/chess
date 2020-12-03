@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { initBoard } from './initBoard';
-import { getNewBoardFromMove } from '../piece/pieceUtil';
+import { getNewBoardFromMove, getIndexesFromPos } from '../piece/pieceUtil';
 
 export const boardSlice = createSlice({
   name: 'board',
@@ -39,6 +39,14 @@ export const boardSlice = createSlice({
     setMouseDown: (state, action) => {
       state.isMouseDown = action.payload;
     },
+    illegalMove: (state) => {
+      const [row, col] = getIndexesFromPos(state.movingPieceStartingPos);
+      const boardCopy = state.board;
+      boardCopy[row][col] = state.movingPiece;
+      state.board = boardCopy;
+      state.movingPiece = 0;
+      state.movingPieceStartingPos = '';
+    },
   },
 });
 
@@ -48,6 +56,7 @@ export const {
   setMovingPieceStartingPos,
   movePiece,
   setMouseDown,
+  illegalMove,
 } = boardSlice.actions;
 
 export const selectBoard = (state) => state.board.board;

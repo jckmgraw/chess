@@ -5,11 +5,8 @@ import {
   setMovingPieceStartingPos,
   selectBoard,
 } from '../board/boardSlice';
-import {
-  getPieceFromBoardPos,
-  getPieceImage,
-  getStringFromPiece,
-} from './pieceUtil';
+import { getPieceFromBoardPos } from './pieceUtil';
+import { getPieceImage, getStringFromPiece } from './pieceImages';
 import styles from './Piece.module.scss';
 
 const Piece = (props) => {
@@ -23,7 +20,7 @@ const Piece = (props) => {
   const piece = getPieceFromBoardPos(board, boardPos);
 
   if (
-    piece == null ||
+    piece === 0 ||
     (movingPiece !== 0 && boardPos === movingPieceStartingPos)
   ) {
     return null;
