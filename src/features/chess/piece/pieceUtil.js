@@ -3,6 +3,7 @@ import { rookMove } from './moveLogic/rookLogic';
 import { knightMove } from './moveLogic/knightLogic';
 import { bishopMove } from './moveLogic/bishopLogic';
 import { queenMove } from './moveLogic/queenLogic';
+import { kingMove } from './moveLogic/kingLogic';
 import ENV from '../../../env';
 
 export const isMoveLegal = (board, startPos, endPos) => {
@@ -19,7 +20,7 @@ export const isMoveLegal = (board, startPos, endPos) => {
   } else if (Math.abs(piece) === ENV.WHITE_QUEEN) {
     return queenMove(board, startPos, endPos, piece);
   } else if (Math.abs(piece) === ENV.WHITE_KING) {
-    return false;
+    return kingMove(board, startPos, endPos, piece);
   } else {
     console.error('unknown piece in isMoveLegal()');
     return false;

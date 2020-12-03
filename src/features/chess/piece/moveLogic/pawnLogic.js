@@ -6,6 +6,7 @@ export const pawnMove = (board, startPos, endPos, piece) => {
   const [endRow, endCol] = getIndexesFromPos(endPos);
   const endPosPiece = getPieceFromBoardPos(board, endPos);
 
+  // TODO: improve code readability
   // Case 1: Move forward one
   // Case 2: First move 2 moves forward
   // Case 3: Standard diagonal capture
