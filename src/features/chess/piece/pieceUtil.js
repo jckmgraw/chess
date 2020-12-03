@@ -1,4 +1,5 @@
-import { pawnMove } from './legalMoves';
+import { pawnMove } from './moveLogic/pawnLogic';
+import { rookMove } from './moveLogic/rookLogic';
 import ENV from '../../../env';
 
 export const isMoveLegal = (board, startPos, endPos) => {
@@ -7,7 +8,7 @@ export const isMoveLegal = (board, startPos, endPos) => {
   if (Math.abs(piece) === ENV.WHITE_PAWN) {
     return pawnMove(board, startPos, endPos, piece);
   } else if (Math.abs(piece) === ENV.WHITE_ROOK) {
-    return false;
+    return rookMove(board, startPos, endPos, piece);
   } else if (Math.abs(piece) === ENV.WHITE_KNIGHT) {
     return false;
   } else if (Math.abs(piece) === ENV.WHITE_BISHOP) {

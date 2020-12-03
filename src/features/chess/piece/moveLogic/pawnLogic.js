@@ -1,5 +1,5 @@
-import { getIndexesFromPos, getPieceFromBoardPos } from './pieceUtil';
-import ENV from '../../../env';
+import { getIndexesFromPos, getPieceFromBoardPos } from '../pieceUtil';
+import ENV from '../../../../env';
 
 export const pawnMove = (board, startPos, endPos, piece) => {
   const [startRow, startCol] = getIndexesFromPos(startPos);
@@ -13,7 +13,7 @@ export const pawnMove = (board, startPos, endPos, piece) => {
   // Case 2: First move 2 moves forward
   // Case 3: Standard diagonal capture
   // Case 4: En Passant (TODO)
-  // Case 5: Pawn upgrade
+  // Case 5: Pawn upgrade (TODO)
   if (piece === ENV.WHITE_PAWN) {
     if (startRow > endRow) {
       return false;
@@ -40,7 +40,6 @@ export const pawnMove = (board, startPos, endPos, piece) => {
     }
     return false;
   } else if (piece === ENV.BLACK_PAWN) {
-    console.log('black piece');
     if (startRow < endRow) {
       return false;
     }
@@ -57,7 +56,7 @@ export const pawnMove = (board, startPos, endPos, piece) => {
     }
     // Cases 1 & 2
     if (endPosPiece === 0) {
-      if (startRow === 7 && Math.abs(endRow - startRow) <= 2) {
+      if (startRow === 6 && Math.abs(endRow - startRow) <= 2) {
         return true;
       }
       if (Math.abs(endRow - startRow) === 1) {
