@@ -1,68 +1,33 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { movePiece, setMouseHoverSquare } from '../board/boardSlice';
 import Piece from '../piece/Piece';
 import styles from './Board.module.scss';
 
-// TODO: clean up this mess
 export const RowVariation1 = (props) => {
   const { row } = props;
-  const dispatch = useDispatch();
-  const movingPiece = useSelector((state) => state.board.movingPiece);
-  const handleMouseOver = (square) => {
-    dispatch(setMouseHoverSquare(square));
-    if (movingPiece !== 0) {
-      dispatch(movePiece());
-    }
-  };
   return (
     <div className={styles.row}>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`a${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`a${row}`} />
       </div>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`b${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`b${row}`} />
       </div>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`c${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`c${row}`} />
       </div>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`d${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`d${row}`} />
       </div>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`e${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`e${row}`} />
       </div>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`f${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`f${row}`} />
       </div>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`g${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`g${row}`} />
       </div>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`h${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`h${row}`} />
       </div>
     </div>
@@ -71,62 +36,30 @@ export const RowVariation1 = (props) => {
 
 export const RowVariation2 = (props) => {
   const { row } = props;
-  const dispatch = useDispatch();
-  const movingPiece = useSelector((state) => state.board.movingPiece);
-  const handleMouseOver = (square) => {
-    dispatch(setMouseHoverSquare(square));
-    if (movingPiece !== 0) {
-      dispatch(movePiece());
-    }
-  };
   return (
     <div className={styles.row}>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`a${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`a${row}`} />
       </div>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`b${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`b${row}`} />
       </div>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`c${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`c${row}`} />
       </div>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`d${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`d${row}`} />
       </div>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`e${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`e${row}`} />
       </div>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`f${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`f${row}`} />
       </div>
-      <div
-        className={styles.squareWhite}
-        onMouseOver={() => handleMouseOver(`g${row}`)}
-      >
+      <div className={styles.squareWhite}>
         <Piece boardPos={`g${row}`} />
       </div>
-      <div
-        className={styles.squareBlack}
-        onMouseOver={() => handleMouseOver(`h${row}`)}
-      >
+      <div className={styles.squareBlack}>
         <Piece boardPos={`h${row}`} />
       </div>
     </div>

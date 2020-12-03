@@ -25,4 +25,16 @@ export const useMousePosition = () => {
   return mousePos;
 };
 
-export const getSquareFromMousePos = () => {};
+export const getSquareFromMousePos = (data) => {
+  const { windowWidth, windowHeight, posX, posY } = data;
+  const border = 20; // TODO: move to ENV
+  const squareWidth = windowHeight * 0.1125;
+
+  const rowInverted = Math.floor((posY - border) / squareWidth);
+  const row = Math.abs(8 - rowInverted);
+
+  const colTemp = Math.floor((posX - border) / squareWidth);
+  const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  const col = letters[colTemp];
+  return `${col}${row}`;
+};

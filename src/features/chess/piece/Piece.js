@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   setMovingPiece,
   setMovingPieceStartingPos,
-  movePiece,
   selectBoard,
 } from '../board/boardSlice';
 import {
@@ -12,14 +11,12 @@ import {
   getStringFromPiece,
 } from './pieceUtil';
 import styles from './Piece.module.scss';
-import ENV from '../../../env';
 
 const Piece = (props) => {
   const { boardPos } = props;
   const dispatch = useDispatch();
   const board = useSelector(selectBoard);
   const movingPiece = useSelector((state) => state.board.movingPiece);
-  const isMouseDown = useSelector((state) => state.board.isMouseDown);
   const movingPieceStartingPos = useSelector(
     (state) => state.board.movingPieceStartingPos
   );
@@ -56,9 +53,3 @@ const Piece = (props) => {
 };
 
 export default Piece;
-
-// if (
-//   piece == null ||
-//   (movingPiece !== 0 && boardPos === movingPieceStartingPos)
-// )
-//   return null;

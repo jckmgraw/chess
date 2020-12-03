@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { RowVariation1, RowVariation2 } from './Rows';
-import { setMousePos, setMouseDown } from './boardSlice';
+import { setMouseDown } from './boardSlice';
 import {
   useWindowSize,
   useMousePosition,
@@ -9,6 +9,7 @@ import {
 import styles from './Board.module.scss';
 import PieceDraggable from '../piece/PieceDraggable';
 
+// TODO: have board CSS use ENV vars
 const Board = () => {
   const dispatch = useDispatch();
   // dispatch(resetBoard());

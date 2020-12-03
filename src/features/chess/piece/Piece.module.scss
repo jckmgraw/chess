@@ -19,8 +19,6 @@ img {
 .pieceDraggable {
   width: 11.25vh;
   height: 11.25vh;
-  // background: black;
-  // z-index: 2;
   position: absolute;
   cursor: grabbing;
   -webkit-user-select: none;
