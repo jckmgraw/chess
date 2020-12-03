@@ -1,6 +1,7 @@
 import { pawnMove } from './moveLogic/pawnLogic';
 import { rookMove } from './moveLogic/rookLogic';
 import { bishopMove } from './moveLogic/bishopLogic';
+import { queenMove } from './moveLogic/queenLogic';
 import ENV from '../../../env';
 
 export const isMoveLegal = (board, startPos, endPos) => {
@@ -15,7 +16,7 @@ export const isMoveLegal = (board, startPos, endPos) => {
   } else if (Math.abs(piece) === ENV.WHITE_BISHOP) {
     return bishopMove(board, startPos, endPos, piece);
   } else if (Math.abs(piece) === ENV.WHITE_QUEEN) {
-    return false;
+    return queenMove(board, startPos, endPos, piece);
   } else if (Math.abs(piece) === ENV.WHITE_KING) {
     return false;
   } else {

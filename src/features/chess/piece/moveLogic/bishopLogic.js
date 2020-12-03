@@ -1,5 +1,4 @@
 import { getIndexesFromPos, getPieceFromBoardPos } from '../pieceUtil';
-import ENV from '../../../../env';
 
 export const bishopMove = (board, startPos, endPos, piece) => {
   const [startRow, startCol] = getIndexesFromPos(startPos);
@@ -58,10 +57,7 @@ export const bishopMove = (board, startPos, endPos, piece) => {
     }
   }
   // Case 5
-  if (
-    (piece === ENV.WHITE_BISHOP && endPosPiece > 0) ||
-    (piece === ENV.BLACK_BISHOP && endPosPiece < 0)
-  ) {
+  if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
     return false;
   } else {
     return true;

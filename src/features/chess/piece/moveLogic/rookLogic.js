@@ -1,5 +1,4 @@
 import { getIndexesFromPos, getPieceFromBoardPos } from '../pieceUtil';
-import ENV from '../../../../env';
 
 export const rookMove = (board, startPos, endPos, piece) => {
   const [startRow, startCol] = getIndexesFromPos(startPos);
@@ -50,10 +49,7 @@ export const rookMove = (board, startPos, endPos, piece) => {
     }
   }
   // Case 5
-  if (
-    (piece === ENV.WHITE_ROOK && endPosPiece > 0) ||
-    (piece === ENV.BLACK_ROOK && endPosPiece < 0)
-  ) {
+  if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
     return false;
   } else {
     return true;
