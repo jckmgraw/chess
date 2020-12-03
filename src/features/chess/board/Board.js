@@ -1,86 +1,45 @@
-import React from 'react';
-import Piece from '../piece/Piece';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { resetBoard } from './boardSlice';
+import { RowVariation1, RowVariation2 } from './Rows';
+import { setMousePos, setMouseDown } from './boardSlice';
+import {
+  useWindowSize,
+  useMousePosition,
+} from '../../../utilGeneral/utilGeneral';
 import styles from './Board.module.scss';
-
-const RowVariation1 = (props) => {
-  const { row } = props;
-  return (
-    <div className={styles.row}>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`a${row}`} />
-      </div>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`b${row}`} />
-      </div>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`c${row}`} />
-      </div>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`d${row}`} />
-      </div>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`e${row}`} />
-      </div>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`f${row}`} />
-      </div>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`g${row}`} />
-      </div>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`h${row}`} />
-      </div>
-    </div>
-  );
-};
-
-const RowVariation2 = (props) => {
-  const { row } = props;
-  return (
-    <div className={styles.row}>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`a${row}`} />
-      </div>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`b${row}`} />
-      </div>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`c${row}`} />
-      </div>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`d${row}`} />
-      </div>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`e${row}`} />
-      </div>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`f${row}`} />
-      </div>
-      <div className={styles.squareWhite}>
-        <Piece boardPos={`g${row}`} />
-      </div>
-      <div className={styles.squareBlack}>
-        <Piece boardPos={`h${row}`} />
-      </div>
-    </div>
-  );
-};
+import PieceDraggable from '../piece/PieceDraggable';
 
 const Board = () => {
   const dispatch = useDispatch();
-  dispatch(resetBoard());
+  // dispatch(resetBoard());
+  const [windowWidth, windowHeight] = useWindowSize();
+  const [mouseX, mouseY] = useMousePosition();
   return (
-    <div className={styles.board}>
-      <RowVariation2 row={'8'} />
-      <RowVariation1 row={'7'} />
-      <RowVariation2 row={'6'} />
-      <RowVariation1 row={'5'} />
-      <RowVariation2 row={'4'} />
-      <RowVariation1 row={'3'} />
-      <RowVariation2 row={'2'} />
-      <RowVariation1 row={'1'} />
+    <div
+      className={styles.mainContainer}
+      onMouseDown={() => dispatch(setMouseDown(true))}
+      onMouseUp={() => dispatch(setMouseDown(false))}
+      onMouseLeave={() => dispatch(setMouseDown(false))}
+    >
+      <div className={styles.board}>
+        <PieceDraggable
+          windowWidth={windowWidth}
+          windowHeight={windowHeight}
+          posX={mouseX}
+          posY={mouseY}
+        />
+        <RowVariation2 row={'8'} />
+        <RowVariation1 row={'7'} />
+        <RowVariation2 row={'6'} />
+        <RowVariation1 row={'5'} />
+        <RowVariation2 row={'4'} />
+        <RowVariation1 row={'3'} />
+        <RowVariation2 row={'2'} />
+        <RowVariation1 row={'1'} />
+      </div>
+      <div>
+        mouseX: {mouseX}, mouseY: {mouseY}
+      </div>
     </div>
   );
 };
