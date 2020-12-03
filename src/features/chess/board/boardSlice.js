@@ -10,6 +10,8 @@ export const boardSlice = createSlice({
     movingPiece: 0,
     movingPieceStartingPos: '',
     isMouseDown: false,
+    hasWhiteCastled: false,
+    hasBlackCastled: false,
   },
   reducers: {
     resetBoard: (state) => {
