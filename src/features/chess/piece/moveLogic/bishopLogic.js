@@ -17,7 +17,6 @@ export const bishopMove = (board, startPos, endPos, piece) => {
   }
   // Case 1
   if (startRow < endRow && startCol > endCol) {
-    console.log('bishop up/left');
     let j = startRow + 1;
     for (let i = startCol - 1; i > endCol; i--) {
       if (board[j][i] !== 0) {
@@ -28,7 +27,6 @@ export const bishopMove = (board, startPos, endPos, piece) => {
   }
   // Case 2
   else if (startRow < endRow && startCol < endCol) {
-    console.log('bishop up/right');
     let j = startRow + 1;
     for (let i = startCol + 1; i < endCol; i++) {
       if (board[j][i] !== 0) {
@@ -39,7 +37,6 @@ export const bishopMove = (board, startPos, endPos, piece) => {
   }
   // Case 3
   else if (startRow > endRow && startCol > endCol) {
-    console.log('bishop down/left');
     let j = startCol - 1;
     for (let i = startRow - 1; i > endRow; i--) {
       if (board[i][j] !== 0) {
@@ -50,7 +47,6 @@ export const bishopMove = (board, startPos, endPos, piece) => {
   }
   // Case 4
   else if (startRow > endRow && startCol < endCol) {
-    console.log('bishop down/right');
     let j = startCol + 1;
     for (let i = startRow - 1; i > endRow; i--) {
       if (board[i][j] !== 0) {
