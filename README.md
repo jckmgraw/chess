@@ -4,13 +4,19 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 
 ### TODO
 
+- test, test, more testing
+- handle mouse dragging piece off board
 - swap black/white
 - En Passant, pawn upgrade
 - castle, check, checkmate
-- display available moves when piece is selected
 - build server to manage client websocket connections
 - create "game rooms" that players can join
 - basic game analytics
 - play against computer option
-- board & piece color options
+- make it look nice
+  - display available moves when piece is selected
+  - board & piece color options
+  - highlight board tile when dragging piece is over it
+  - ...
 - deploy
+- ...

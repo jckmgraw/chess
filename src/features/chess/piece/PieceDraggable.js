@@ -1,11 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  setMouseDown,
-  movePiece,
-  illegalMove,
-  selectBoard,
-} from '../board/boardSlice';
+import { useDispatch } from 'react-redux';
+import { setMouseDown, movePiece, illegalMove } from '../board/boardSlice';
 import { isMoveLegal } from './pieceUtil';
 import { getPieceImage } from './pieceImages';
 import { getSquareFromMousePos } from '../../../utilGeneral/utilGeneral';
@@ -13,7 +8,6 @@ import styles from './Piece.module.scss';
 
 const PieceDraggable = (props) => {
   const {
-    windowWidth,
     windowHeight,
     posX,
     posY,
@@ -23,22 +17,28 @@ const PieceDraggable = (props) => {
     isMouseDown,
   } = props;
   const dispatch = useDispatch();
-
   if (!isMouseDown || movingPiece === 0) return null;
 
   const onMouseUp = () => {
     const curSquare = getSquareFromMousePos(props);
-    dispatch(setMouseDown(false));
-    if (isMoveLegal(board, movingPieceStartingPos, curSquare, movingPiece)) {
+    if (curSquare == null) {
+      dispatch(illegalMove());
+    } else if (
+      isMoveLegal(board, movingPieceStartingPos, curSquare, movingPiece)
+    ) {
       dispatch(movePiece(curSquare));
     } else {
       dispatch(illegalMove());
       console.log('bad move');
     }
+    dispatch(setMouseDown(false));
   };
 
   const pieceImage = getPieceImage(movingPiece);
-  const adjustedX = posX - (windowHeight * 0.1125) / 2;
+  const adjustedX = Math.min(
+    posX - (windowHeight * 0.1125) / 2,
+    windowHeight * 0.9
+  );
   const adjustedY = posY - (windowHeight * 0.1125) / 2;
   return (
     <div

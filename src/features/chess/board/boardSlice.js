@@ -62,5 +62,9 @@ export const {
 } = boardSlice.actions;
 
 export const selectBoard = (state) => state.board.board;
+export const selectIsMouseDown = (state) => state.board.isMouseDown;
+export const selectMovingPiece = (state) => state.board.movingPiece;
+export const selectMovingPieceStartingPos = (state) =>
+  state.board.movingPieceStartingPos;
 
 export default boardSlice.reducer;

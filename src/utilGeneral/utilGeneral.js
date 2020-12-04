@@ -36,5 +36,6 @@ export const getSquareFromMousePos = (data) => {
   const colTemp = Math.floor((posX - border) / squareWidth);
   const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   const col = letters[colTemp];
+  if (col == null || row == null) return null;
   return `${col}${row}`;
 };
