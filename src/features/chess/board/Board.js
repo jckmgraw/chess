@@ -7,6 +7,12 @@ import {
   selectIsMouseDown,
   selectMovingPiece,
   selectMovingPieceStartingPos,
+  selectHasWhiteKingMoved,
+  selectHasBlackKingMoved,
+  selectHasWhiteRookLMoved,
+  selectHasWhiteRookRMoved,
+  selectHasBlackRookLMoved,
+  selectHasBlackRookRMoved,
 } from './boardSlice';
 import {
   useWindowSize,
@@ -16,6 +22,7 @@ import styles from './Board.module.scss';
 import PieceDraggable from '../piece/PieceDraggable';
 
 // TODO: have board CSS use ENV vars
+// TODO: I now get why piece names are encoded..
 const Board = () => {
   const dispatch = useDispatch();
   const [windowWidth, windowHeight] = useWindowSize();
@@ -24,8 +31,20 @@ const Board = () => {
   const movingPiece = useSelector(selectMovingPiece);
   const movingPieceStartingPos = useSelector(selectMovingPieceStartingPos);
   const board = useSelector(selectBoard);
-  if (isMouseDown && movingPiece !== 0) {
-  }
+  const hasWhiteKingMoved = useSelector(selectHasWhiteKingMoved);
+  const hasBlackKingMoved = useSelector(selectHasBlackKingMoved);
+  const hasWhiteRookLMoved = useSelector(selectHasWhiteRookLMoved);
+  const hasWhiteRookRMoved = useSelector(selectHasWhiteRookRMoved);
+  const hasBlackRookLMoved = useSelector(selectHasBlackRookLMoved);
+  const hasBlackRookRMoved = useSelector(selectHasBlackRookRMoved);
+  const kingStuff = {
+    hasWhiteKingMoved,
+    hasBlackKingMoved,
+    hasWhiteRookLMoved,
+    hasWhiteRookRMoved,
+    hasBlackRookLMoved,
+    hasBlackRookRMoved,
+  };
   return (
     <div
       className={styles.mainContainer}
@@ -43,6 +62,7 @@ const Board = () => {
           isMouseDown={isMouseDown}
           movingPiece={movingPiece}
           movingPieceStartingPos={movingPieceStartingPos}
+          kingStuff={kingStuff}
         />
         <RowVariation2 row={'8'} />
         <RowVariation1 row={'7'} />

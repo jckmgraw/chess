@@ -1,6 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { initBoard } from './initBoard';
-import { getNewBoardFromMove, getIndexesFromPos } from '../piece/pieceUtil';
+import {
+  getNewBoardFromMove,
+  getIndexesFromPos,
+  isWhiteRookL,
+  isWhiteRookR,
+  isBlackRookL,
+  isBlackRookR,
+} from '../piece/pieceUtil';
+import ENV from '../../../env';
 
 export const boardSlice = createSlice({
   name: 'board',
@@ -10,8 +18,12 @@ export const boardSlice = createSlice({
     movingPiece: 0,
     movingPieceStartingPos: '',
     isMouseDown: false,
-    hasWhiteCastled: false,
-    hasBlackCastled: false,
+    hasWhiteKingMoved: false,
+    hasBlackKingMoved: false,
+    hasWhiteRookLMoved: false,
+    hasWhiteRookRMoved: false,
+    hasBlackRookLMoved: false,
+    hasBlackRookRMoved: false,
   },
   reducers: {
     resetBoard: (state) => {
@@ -27,13 +39,27 @@ export const boardSlice = createSlice({
       state.movingPieceStartingPos = action.payload;
     },
     movePiece: (state, action) => {
-      const endPos = action.payload;
+      const { endPos, startPos, piece, isCastling } = action.payload;
       console.log(`movePiece() endPos: ${endPos}`);
-      const board = getNewBoardFromMove(
-        state.board,
-        state.movingPieceStartingPos,
-        endPos
-      );
+      const board = getNewBoardFromMove({
+        board: state.board,
+        startPos: state.movingPieceStartingPos,
+        endPos,
+        isCastling,
+      });
+      if (piece === ENV.WHITE_KING) {
+        state.hasWhiteKingMoved = true;
+      } else if (piece === ENV.BLACK_KING) {
+        state.hasBlackKingMoved = true;
+      } else if (isWhiteRookL(startPos, piece)) {
+        state.hasWhiteRookLMoved = true;
+      } else if (isWhiteRookR(startPos, piece)) {
+        state.hasWhiteRookRMoved = true;
+      } else if (isBlackRookL(startPos, piece)) {
+        state.hasBlackRookLMoved = true;
+      } else if (isBlackRookR(startPos, piece)) {
+        state.hasBlackRookRMoved = true;
+      }
       state.movingPiece = 0;
       state.movingPieceStartingPos = '';
       state.board = board;
@@ -66,5 +92,16 @@ export const selectIsMouseDown = (state) => state.board.isMouseDown;
 export const selectMovingPiece = (state) => state.board.movingPiece;
 export const selectMovingPieceStartingPos = (state) =>
   state.board.movingPieceStartingPos;
+
+export const selectHasWhiteKingMoved = (state) => state.board.hasWhiteKingMoved;
+export const selectHasBlackKingMoved = (state) => state.board.hasBlackKingMoved;
+export const selectHasWhiteRookLMoved = (state) =>
+  state.board.hasWhiteRookLMoved;
+export const selectHasWhiteRookRMoved = (state) =>
+  state.board.hasWhiteRookRMoved;
+export const selectHasBlackRookLMoved = (state) =>
+  state.board.hasBlackRookLMoved;
+export const selectHasBlackRookRMoved = (state) =>
+  state.board.hasBlackRookRMoved;
 
 export default boardSlice.reducer;
