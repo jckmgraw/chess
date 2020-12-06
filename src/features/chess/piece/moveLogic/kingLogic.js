@@ -81,7 +81,6 @@ export const kingMove = ({ board, startPos, endPos, piece, kingStuff }) => {
 
   // Case 1
   if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
-    console.log('cannot capture own piece');
     return { isMoveLegal: false, isCastling: false };
   }
   // Case 2
@@ -90,12 +89,10 @@ export const kingMove = ({ board, startPos, endPos, piece, kingStuff }) => {
     (xDist === 1 && yDist === 0) ||
     (xDist === 0 && yDist === 1)
   ) {
-    console.log('standard movement');
     return { isMoveLegal: true, isCastling: false };
   }
   // Case 3
   else if (xDist === 2 && yDist === 0) {
-    console.log('checking castling...');
     if (
       piece === ENV.WHITE_KING &&
       canWhiteKingCastle({
@@ -106,7 +103,6 @@ export const kingMove = ({ board, startPos, endPos, piece, kingStuff }) => {
         hasWhiteRookRMoved,
       })
     ) {
-      console.log('white can castle');
       return { isMoveLegal: true, isCastling: true };
     } else if (
       piece === ENV.BLACK_KING &&
@@ -118,7 +114,6 @@ export const kingMove = ({ board, startPos, endPos, piece, kingStuff }) => {
         hasBlackRookRMoved,
       })
     ) {
-      console.log('black can castle');
       return { isMoveLegal: true, isCastling: true };
     }
   }
