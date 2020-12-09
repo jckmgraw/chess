@@ -10,6 +10,7 @@ import {
 } from '../piece/pieceUtil';
 import ENV from '../../../env';
 
+// TODO: move socket logic to new slice
 export const boardSlice = createSlice({
   name: 'board',
   initialState: {
@@ -18,12 +19,15 @@ export const boardSlice = createSlice({
     movingPiece: 0,
     movingPieceStartingPos: '',
     isMouseDown: false,
+    // castling
     hasWhiteKingMoved: false,
     hasBlackKingMoved: false,
     hasWhiteRookLMoved: false,
     hasWhiteRookRMoved: false,
     hasBlackRookLMoved: false,
     hasBlackRookRMoved: false,
+    // socket conn
+    connStatus: ENV.CONN_STATUS_NO_CONNECTION,
   },
   reducers: {
     resetBoard: (state) => {
@@ -73,6 +77,21 @@ export const boardSlice = createSlice({
       state.movingPiece = 0;
       state.movingPieceStartingPos = '';
     },
+    openSocket: (state) => {
+      // handled in socket middleware
+      console.log('openSocket slice');
+    },
+    closeSocket: (state) => {
+      // handled in socket middleware
+      console.log('closeSocket slice');
+    },
+    emitSocketEvent: (state) => {
+      // handled in socket middleware
+    },
+    setConnStatus: (state, action) => {
+      console.log(`connStatus: ${action.payload}`);
+      state.connStatus = action.payload;
+    },
   },
 });
 
@@ -83,6 +102,10 @@ export const {
   movePiece,
   setMouseDown,
   illegalMove,
+  openSocket,
+  closeSocket,
+  emitSocketEvent,
+  setConnStatus,
 } = boardSlice.actions;
 
 export const selectBoard = (state) => state.board.board;

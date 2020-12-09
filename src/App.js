@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.scss';
-import Board from './features/chess/board/Board';
+import SocketWrapper from './features/socket/SocketWrapper';
 
 function App() {
   return (
     <div className="App">
-      <Board />
+      <SocketWrapper />
     </div>
   );
 }

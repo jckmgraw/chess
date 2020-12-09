@@ -22,7 +22,7 @@ import styles from './Board.module.scss';
 import PieceDraggable from '../piece/PieceDraggable';
 
 // TODO: have board CSS use ENV vars
-// TODO: I now get why piece names are encoded..
+// TODO: encode piece names
 const Board = () => {
   const dispatch = useDispatch();
   const [windowWidth, windowHeight] = useWindowSize();
