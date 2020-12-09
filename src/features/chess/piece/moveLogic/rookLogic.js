@@ -1,8 +1,8 @@
 import { getIndexesFromPos, getPieceFromBoardPos } from '../pieceUtil';
 
-export const rookMove = (board, startPos, endPos, piece) => {
-  const [startRow, startCol] = getIndexesFromPos(startPos);
-  const [endRow, endCol] = getIndexesFromPos(endPos);
+export const rookMove = ({ board, startPos, endPos, piece }) => {
+  const [startX, startY] = getIndexesFromPos(startPos);
+  const [endX, endY] = getIndexesFromPos(endPos);
   const endPosPiece = getPieceFromBoardPos(board, endPos);
 
   // Case 1: left
@@ -10,45 +10,45 @@ export const rookMove = (board, startPos, endPos, piece) => {
   // Case 3: up
   // Case 4: down
   // Case 5: cannot capture own piece
-  if (startRow !== endRow && startCol !== endCol) {
-    return false;
+  if (startY !== endY && startX !== endX) {
+    return { isLegal: false };
   }
   // Case 1
-  if (startRow === endRow && startCol > endCol) {
-    for (let i = startCol - 1; i > endCol; i--) {
-      if (board[startRow][i] !== 0) {
-        return false;
+  if (startY === endY && startX > endX) {
+    for (let x = startX - 1; x > endX; x--) {
+      if (board[x][startY] !== 0) {
+        return { isLegal: false };
       }
     }
   }
   // Case 2
-  else if (startRow === endRow && startCol < endCol) {
-    for (let i = startCol + 1; i < endCol; i++) {
-      if (board[startRow][i] !== 0) {
-        return false;
+  else if (startY === endY && startX < endX) {
+    for (let x = startX + 1; x < endX; x++) {
+      if (board[x][startY] !== 0) {
+        return { isLegal: false };
       }
     }
   }
   // Case 3
-  else if (startRow < endRow && startCol === endCol) {
-    for (let i = startRow + 1; i < endRow; i++) {
-      if (board[i][startCol] !== 0) {
-        return false;
+  else if (startY < endY && startX === endX) {
+    for (let y = startY + 1; y < endY; y++) {
+      if (board[startX][y] !== 0) {
+        return { isLegal: false };
       }
     }
   }
   // Case 4
-  else if (startRow > endRow && startCol === endCol) {
-    for (let i = startRow - 1; i > endRow; i--) {
-      if (board[i][startCol] !== 0) {
-        return false;
+  else if (startY > endY && startX === endX) {
+    for (let y = startY - 1; y > endY; y--) {
+      if (board[startX][y] !== 0) {
+        return { isLegal: false };
       }
     }
   }
   // Case 5
   if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
-    return false;
+    return { isLegal: false };
   } else {
-    return true;
+    return { isLegal: true };
   }
 };

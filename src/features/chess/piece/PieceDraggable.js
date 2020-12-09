@@ -2,10 +2,8 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setMouseDown, movePiece, illegalMove } from '../board/boardSlice';
 import { isMoveLegal } from './pieceUtil';
-import { kingMove } from './moveLogic/kingLogic';
 import { getPieceImage } from './pieceImages';
 import { getSquareFromMousePos } from '../../../utilGeneral/utilGeneral';
-import ENV from '../../../env';
 import styles from './Piece.module.scss';
 
 const PieceDraggable = (props) => {
@@ -26,45 +24,32 @@ const PieceDraggable = (props) => {
     const curSquare = getSquareFromMousePos(props);
     if (curSquare == null) {
       dispatch(illegalMove());
-    } else if (Math.abs(movingPiece) === ENV.WHITE_KING) {
-      const { isMoveLegal, isCastling } = kingMove({
+    } else {
+      const { isLegal, isCastling } = isMoveLegal({
         board,
         startPos: movingPieceStartingPos,
         endPos: curSquare,
         piece: movingPiece,
         kingStuff,
       });
-      if (isMoveLegal) {
+      if (isLegal) {
         dispatch(
           movePiece({
             endPos: curSquare,
             piece: movingPiece,
             startPos: movingPieceStartingPos,
-            isCastling,
+            isCastling: isCastling || false,
           })
         );
       } else {
         dispatch(illegalMove());
       }
-    } else if (
-      isMoveLegal(board, movingPieceStartingPos, curSquare, movingPiece)
-    ) {
-      dispatch(
-        movePiece({
-          endPos: curSquare,
-          piece: movingPiece,
-          startPos: movingPieceStartingPos,
-          isCastling: false,
-        })
-      );
-    } else {
-      dispatch(illegalMove());
     }
     dispatch(setMouseDown(false));
   };
 
   const pieceImage = getPieceImage(movingPiece);
-  // TODO
+  // TODO: no hardcoding
   const adjustedX = Math.min(
     posX - (windowHeight * 0.1125) / 2,
     windowHeight * 0.9

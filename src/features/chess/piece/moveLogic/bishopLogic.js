@@ -1,11 +1,11 @@
 import { getIndexesFromPos, getPieceFromBoardPos } from '../pieceUtil';
 
-export const bishopMove = (board, startPos, endPos, piece) => {
-  const [startRow, startCol] = getIndexesFromPos(startPos);
-  const [endRow, endCol] = getIndexesFromPos(endPos);
+export const bishopMove = ({ board, startPos, endPos, piece }) => {
+  const [startX, startY] = getIndexesFromPos(startPos);
+  const [endX, endY] = getIndexesFromPos(endPos);
   const endPosPiece = getPieceFromBoardPos(board, endPos);
-  const xDist = Math.abs(startCol - endCol);
-  const yDist = Math.abs(startRow - endRow);
+  const xDist = Math.abs(startX - endX);
+  const yDist = Math.abs(startY - endY);
 
   // Case 1: up/left diagonal
   // Case 2: up/right diagonal
@@ -13,52 +13,52 @@ export const bishopMove = (board, startPos, endPos, piece) => {
   // Case 4: down/right diagonal
   // Case 5: cannot capture own piece
   if (xDist !== yDist) {
-    return false;
+    return { isLegal: false };
   }
   // Case 1
-  if (startRow < endRow && startCol > endCol) {
-    let j = startRow + 1;
-    for (let i = startCol - 1; i > endCol; i--) {
-      if (board[j][i] !== 0) {
-        return false;
+  if (startY < endY && startX > endX) {
+    let y = startY + 1;
+    for (let x = startX - 1; x > endX; x--) {
+      if (board[x][y] !== 0) {
+        return { isLegal: false };
       }
-      j++;
+      y++;
     }
   }
   // Case 2
-  else if (startRow < endRow && startCol < endCol) {
-    let j = startRow + 1;
-    for (let i = startCol + 1; i < endCol; i++) {
-      if (board[j][i] !== 0) {
-        return false;
+  else if (startY < endY && startX < endX) {
+    let y = startY + 1;
+    for (let x = startX + 1; x < endX; x++) {
+      if (board[x][y] !== 0) {
+        return { isLegal: false };
       }
-      j++;
+      y++;
     }
   }
   // Case 3
-  else if (startRow > endRow && startCol > endCol) {
-    let j = startCol - 1;
-    for (let i = startRow - 1; i > endRow; i--) {
-      if (board[i][j] !== 0) {
-        return false;
+  else if (startY > endY && startX > endX) {
+    let x = startX - 1;
+    for (let y = startY - 1; y > endY; y--) {
+      if (board[x][y] !== 0) {
+        return { isLegal: false };
       }
-      j--;
+      x--;
     }
   }
   // Case 4
-  else if (startRow > endRow && startCol < endCol) {
-    let j = startCol + 1;
-    for (let i = startRow - 1; i > endRow; i--) {
-      if (board[i][j] !== 0) {
-        return false;
+  else if (startY > endY && startX < endX) {
+    let y = startY - 1;
+    for (let x = startX + 1; x < endX; x++) {
+      if (board[x][y] !== 0) {
+        return { isLegal: false };
       }
-      j--;
+      y--;
     }
   }
   // Case 5
   if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
-    return false;
+    return { isLegal: false };
   } else {
-    return true;
+    return { isLegal: true };
   }
 };

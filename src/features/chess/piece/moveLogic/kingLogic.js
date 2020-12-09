@@ -1,4 +1,9 @@
-import { getIndexesFromPos, getPieceFromBoardPos } from '../pieceUtil';
+import {
+  isSquareThreatened,
+  isSquaresThreatened,
+  getIndexesFromPos,
+  getPieceFromBoardPos,
+} from '../pieceUtil';
 import ENV from '../../../../env';
 
 const canWhiteKingCastle = ({
@@ -8,7 +13,7 @@ const canWhiteKingCastle = ({
   hasWhiteRookLMoved,
   hasWhiteRookRMoved,
 }) => {
-  const [endRow, endCol] = getIndexesFromPos(endPos);
+  const [endX] = getIndexesFromPos(endPos);
   // Case 1: has king previously moved
   // Case 2: castle kingside
   // Case 3: castle queenside
@@ -17,14 +22,32 @@ const canWhiteKingCastle = ({
   // Case 1
   if (hasWhiteKingMoved) return false;
   // Case 2
-  if (endCol === 6) {
+  if (endX === 6) {
     if (hasWhiteRookRMoved) return false;
-    if (board[0][5] === 0 && board[0][6] === 0) return true;
+    if (
+      isSquaresThreatened({
+        board,
+        positions: ['e1', 'f1', 'g1'],
+        piece: ENV.WHITE_KING,
+      })
+    ) {
+      return false;
+    }
+    if (board[5][0] === 0 && board[6][0] === 0) return true;
   }
   // Case 3
-  else if (endCol === 2) {
+  else if (endX === 2) {
     if (hasWhiteRookLMoved) return false;
-    if (board[0][1] === 0 && board[0][2] === 0 && board[0][3] === 0)
+    if (
+      isSquaresThreatened({
+        board,
+        positions: ['c1', 'd1', 'e1'],
+        piece: ENV.WHITE_KING,
+      })
+    ) {
+      return false;
+    }
+    if (board[1][0] === 0 && board[2][0] === 0 && board[3][0] === 0)
       return true;
   }
   return false;
@@ -37,7 +60,7 @@ const canBlackKingCastle = ({
   hasBlackRookLMoved,
   hasBlackRookRMoved,
 }) => {
-  const [endRow, endCol] = getIndexesFromPos(endPos);
+  const [endX] = getIndexesFromPos(endPos);
   // Case 1: has king previously moved
   // Case 2: castle kingside
   // Case 3: castle queenside
@@ -46,53 +69,72 @@ const canBlackKingCastle = ({
   // Case 1
   if (hasBlackKingMoved) return false;
   // Case 2
-  if (endCol === 1) {
+  if (endX === 1) {
     if (hasBlackRookRMoved) return false;
-    if (board[7][1] === 0 && board[7][2] === 0) return true;
+    if (board[1][7] === 0 && board[2][7] === 0) return true;
   }
   // Case 3
-  else if (endCol === 5) {
+  else if (endX === 5) {
     if (hasBlackRookLMoved) return false;
-    if (board[7][4] === 0 && board[7][5] === 0 && board[7][6] === 0)
+    if (board[4][7] === 0 && board[5][7] === 0 && board[6][7] === 0)
       return true;
   }
   return false;
 };
 
-export const kingMove = ({ board, startPos, endPos, piece, kingStuff }) => {
-  const {
-    hasWhiteKingMoved,
+export const kingMove = ({
+  board,
+  startPos,
+  endPos,
+  piece,
+  isCheckingForSquareThreatened = false,
+  kingStuff,
+}) => {
+  let hasWhiteKingMoved,
     hasBlackKingMoved,
     hasWhiteRookLMoved,
     hasWhiteRookRMoved,
     hasBlackRookLMoved,
-    hasBlackRookRMoved,
-  } = kingStuff;
-  const [startRow, startCol] = getIndexesFromPos(startPos);
-  const [endRow, endCol] = getIndexesFromPos(endPos);
+    hasBlackRookRMoved;
+  if (kingStuff != null) {
+    hasWhiteKingMoved = kingStuff.hasWhiteKingMoved;
+    hasBlackKingMoved = kingStuff.hasBlackKingMoved;
+    hasWhiteRookRMoved = kingStuff.hasWhiteRookRMoved;
+    hasBlackRookLMoved = kingStuff.hasBlackRookLMoved;
+    hasBlackRookRMoved = kingStuff.hasBlackRookRMoved;
+  }
+  const [startX, startY] = getIndexesFromPos(startPos);
+  const [endX, endY] = getIndexesFromPos(endPos);
   const endPosPiece = getPieceFromBoardPos(board, endPos);
-  const xDist = Math.abs(startCol - endCol);
-  const yDist = Math.abs(startRow - endRow);
+  const xDist = Math.abs(startX - endX);
+  const yDist = Math.abs(startY - endY);
 
-  // Case 1: cannot capture own piece
-  // Case 2: standard movement
-  // Case 3: castle kingside/queenside
-  // Case 4: cannot move into check (TODO)
+  // Case 1: cannot move into check
+  // Case 2: cannot capture own piece
+  // Case 3: standard movement
+  // Case 4: castle kingside/queenside
 
   // Case 1
-  if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
-    return { isMoveLegal: false, isCastling: false };
+  if (
+    !isCheckingForSquareThreatened &&
+    isSquareThreatened({ board, pos: endPos, piece })
+  ) {
+    return { isLegal: false, isCastling: false };
   }
   // Case 2
+  if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
+    return { isLegal: false, isCastling: false };
+  }
+  // Case 3
   else if (
     (xDist === 1 && yDist === 1) ||
     (xDist === 1 && yDist === 0) ||
     (xDist === 0 && yDist === 1)
   ) {
-    return { isMoveLegal: true, isCastling: false };
+    return { isLegal: true, isCastling: false };
   }
-  // Case 3
-  else if (xDist === 2 && yDist === 0) {
+  // Case 4
+  else if (!isCheckingForSquareThreatened && xDist === 2 && yDist === 0) {
     if (
       piece === ENV.WHITE_KING &&
       canWhiteKingCastle({
@@ -103,7 +145,7 @@ export const kingMove = ({ board, startPos, endPos, piece, kingStuff }) => {
         hasWhiteRookRMoved,
       })
     ) {
-      return { isMoveLegal: true, isCastling: true };
+      return { isLegal: true, isCastling: true };
     } else if (
       piece === ENV.BLACK_KING &&
       canBlackKingCastle({
@@ -114,8 +156,8 @@ export const kingMove = ({ board, startPos, endPos, piece, kingStuff }) => {
         hasBlackRookRMoved,
       })
     ) {
-      return { isMoveLegal: true, isCastling: true };
+      return { isLegal: true, isCastling: true };
     }
   }
-  return { isMoveLegal: false, isCastling: false };
+  return { isLegal: false, isCastling: false };
 };

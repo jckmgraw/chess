@@ -68,10 +68,8 @@ export const boardSlice = createSlice({
       state.isMouseDown = action.payload;
     },
     illegalMove: (state) => {
-      const [row, col] = getIndexesFromPos(state.movingPieceStartingPos);
-      const boardCopy = state.board;
-      boardCopy[row][col] = state.movingPiece;
-      state.board = boardCopy;
+      const [x, y] = getIndexesFromPos(state.movingPieceStartingPos);
+      state.board[x][y] = state.movingPiece;
       state.movingPiece = 0;
       state.movingPieceStartingPos = '';
     },

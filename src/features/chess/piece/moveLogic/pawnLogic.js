@@ -1,10 +1,29 @@
 import { getIndexesFromPos, getPieceFromBoardPos } from '../pieceUtil';
 import ENV from '../../../../env';
 
-export const pawnMove = (board, startPos, endPos, piece) => {
-  const [startRow, startCol] = getIndexesFromPos(startPos);
-  const [endRow, endCol] = getIndexesFromPos(endPos);
+export const pawnMove = ({
+  board,
+  startPos,
+  endPos,
+  piece,
+  isCheckingForSquareThreatened = false,
+}) => {
+  const [startX, startY] = getIndexesFromPos(startPos);
+  const [endX, endY] = getIndexesFromPos(endPos);
   const endPosPiece = getPieceFromBoardPos(board, endPos);
+
+  if (isCheckingForSquareThreatened) {
+    if (piece === ENV.WHITE_PAWN) {
+      if (startY + 1 === endY && (startX + 1 === endX || startX - 1 === endX)) {
+        return { isLegal: true };
+      }
+    } else {
+      if (startY - 1 === endY && (startX + 1 === endX || startX - 1 === endX)) {
+        return { isLegal: true };
+      }
+    }
+    return { isLegal: false };
+  }
 
   // TODO: improve code readability
   // Case 1: Move forward one
@@ -13,57 +32,57 @@ export const pawnMove = (board, startPos, endPos, piece) => {
   // Case 4: En Passant (TODO)
   // Case 5: Pawn upgrade (TODO)
   if (piece === ENV.WHITE_PAWN) {
-    if (startRow > endRow) {
-      return false;
+    if (startY > endY) {
+      return { isLegal: false };
     }
     // Case 3
-    if (startCol !== endCol) {
+    if (startX !== endX) {
       if (
         endPosPiece < 0 &&
-        Math.abs(startCol - endCol) === 1 &&
-        endRow - startRow === 1
+        Math.abs(startX - endX) === 1 &&
+        endY - startY === 1
       ) {
-        return true;
+        return { isLegal: true };
       }
-      return false;
+      return { isLegal: false };
     }
     // Cases 1 & 2
     if (
       endPosPiece === 0 &&
-      ((startRow === 1 && Math.abs(endRow - startRow) <= 2) ||
-        Math.abs(endRow - startRow) === 1) &&
-      board[startRow + 1][startCol] === 0
+      ((startY === 1 && Math.abs(endY - startY) <= 2) ||
+        Math.abs(endY - startY) === 1) &&
+      board[startX][startY + 1] === 0
     ) {
-      return true;
+      return { isLegal: true };
     }
-    return false;
+    return { isLegal: false };
   } else if (piece === ENV.BLACK_PAWN) {
-    if (startRow < endRow) {
-      return false;
+    if (startY < endY) {
+      return { isLegal: false };
     }
     // Case 3
-    if (startCol !== endCol) {
+    if (startX !== endX) {
       if (
         endPosPiece > 0 &&
-        Math.abs(startCol - endCol) === 1 &&
-        Math.abs(endRow - startRow) === 1
+        Math.abs(startX - endX) === 1 &&
+        Math.abs(endY - startY) === 1
       ) {
-        return true;
+        return { isLegal: true };
       }
-      return false;
+      return { isLegal: false };
     }
     // Cases 1 & 2
     if (
       endPosPiece === 0 &&
-      ((startRow === 6 && Math.abs(endRow - startRow) <= 2) ||
-        Math.abs(endRow - startRow) === 1) &&
-      board[startRow - 1][startCol] === 0
+      ((startY === 6 && Math.abs(endY - startY) <= 2) ||
+        Math.abs(endY - startY) === 1) &&
+      board[startX][startY - 1] === 0
     ) {
-      return true;
+      return { isLegal: true };
     }
-    return false;
+    return { isLegal: false };
   } else {
     console.error('unknown piece type');
-    return false;
+    return { isLegal: false };
   }
 };
