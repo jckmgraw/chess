@@ -164,7 +164,7 @@ export const getNewBoardFromMove = ({
         boardCopy[5][endY] = ENV.WHITE_ROOK;
       }
       // queenside
-      else if (endY === 2) {
+      else if (endX === 2) {
         boardCopy[0][endY] = 0;
         boardCopy[3][endY] = ENV.WHITE_ROOK;
       }

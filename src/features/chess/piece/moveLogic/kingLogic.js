@@ -17,7 +17,6 @@ const canWhiteKingCastle = ({
   // Case 1: has king previously moved
   // Case 2: castle kingside
   // Case 3: castle queenside
-  // Case 4: check situations (TODO)
 
   // Case 1
   if (hasWhiteKingMoved) return false;
@@ -64,18 +63,35 @@ const canBlackKingCastle = ({
   // Case 1: has king previously moved
   // Case 2: castle kingside
   // Case 3: castle queenside
-  // Case 4: check situations (TODO)
 
   // Case 1
   if (hasBlackKingMoved) return false;
   // Case 2
   if (endX === 1) {
     if (hasBlackRookRMoved) return false;
+    if (
+      isSquaresThreatened({
+        board,
+        positions: ['b8', 'c8', 'd8'],
+        piece: ENV.BLACK_KING,
+      })
+    ) {
+      return false;
+    }
     if (board[1][7] === 0 && board[2][7] === 0) return true;
   }
   // Case 3
   else if (endX === 5) {
     if (hasBlackRookLMoved) return false;
+    if (
+      isSquaresThreatened({
+        board,
+        positions: ['d8', 'e8', 'f8'],
+        piece: ENV.BLACK_KING,
+      })
+    ) {
+      return false;
+    }
     if (board[4][7] === 0 && board[5][7] === 0 && board[6][7] === 0)
       return true;
   }
