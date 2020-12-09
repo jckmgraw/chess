@@ -4,16 +4,14 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 
 ### TODO (unordered)
 
-- convert to TypeScript
+- [server](https://github.com/jckmgraw/chess-server)
+- TypeScript
 - unit tests, general testing
 - handle mouse dragging piece off board
 - swap black/white
 - En Passant, pawn upgrade
-- castle, check, checkmate, stalemate, draw
-- build server: redis, socket, node, express
-- create "game rooms" that players can join
+- check, checkmate, stalemate, draw
 - basic game analytics
-- play against computer option
 - make it look nice
   - display available moves when piece is selected
   - board & piece color options
