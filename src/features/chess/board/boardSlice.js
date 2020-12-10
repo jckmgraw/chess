@@ -28,12 +28,17 @@ export const boardSlice = createSlice({
     hasBlackRookRMoved: false,
     // socket conn
     connStatus: ENV.CONN_STATUS_NO_CONNECTION,
+    username: '',
+    playerColor: '',
   },
   reducers: {
     resetBoard: (state) => {
       const board = initBoard();
       state.resetBoard = false;
       state.board = board;
+    },
+    updateBoard: (state, action) => {
+      state.board = action.payload;
     },
     setMovingPiece: (state, action) => {
       state.movingPiece = action.payload;
@@ -92,11 +97,18 @@ export const boardSlice = createSlice({
       console.log(`connStatus: ${action.payload}`);
       state.connStatus = action.payload;
     },
+    setUsername: (state, action) => {
+      state.username = action.payload;
+    },
+    setPlayerColor: (state, action) => {
+      state.playerColor = action.payload;
+    },
   },
 });
 
 export const {
   resetBoard,
+  updateBoard,
   setMovingPiece,
   setMovingPieceStartingPos,
   movePiece,
@@ -106,6 +118,8 @@ export const {
   closeSocket,
   emitSocketEvent,
   setConnStatus,
+  setUsername,
+  setPlayerColor,
 } = boardSlice.actions;
 
 export const selectBoard = (state) => state.board.board;
@@ -124,5 +138,8 @@ export const selectHasBlackRookLMoved = (state) =>
   state.board.hasBlackRookLMoved;
 export const selectHasBlackRookRMoved = (state) =>
   state.board.hasBlackRookRMoved;
+
+export const selectUsername = (state) => state.board.username;
+export const selectPlayerColor = (state) => state.board.playerColor;
 
 export default boardSlice.reducer;

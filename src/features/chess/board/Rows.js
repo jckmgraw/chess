@@ -2,10 +2,12 @@ import React from 'react';
 import Piece from '../piece/Piece';
 import styles from './Board.module.scss';
 
+// TODO full screen vs minimized board
 export const RowVariation1 = (props) => {
-  const { row } = props;
+  const { row, boardHeight } = props;
+  const rowHeight = boardHeight / 8;
   return (
-    <div className={styles.row}>
+    <div className={styles.row} style={{ height: rowHeight }}>
       <div className={styles.squareBlack}>
         <Piece boardPos={`a${row}`} />
       </div>
@@ -35,9 +37,10 @@ export const RowVariation1 = (props) => {
 };
 
 export const RowVariation2 = (props) => {
-  const { row } = props;
+  const { row, boardHeight } = props;
+  const rowHeight = boardHeight / 8;
   return (
-    <div className={styles.row}>
+    <div className={styles.row} style={{ height: rowHeight }}>
       <div className={styles.squareWhite}>
         <Piece boardPos={`a${row}`} />
       </div>

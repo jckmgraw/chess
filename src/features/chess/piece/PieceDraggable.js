@@ -1,27 +1,36 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { setMouseDown, movePiece, illegalMove } from '../board/boardSlice';
+import {
+  setMouseDown,
+  movePiece,
+  illegalMove,
+  emitSocketEvent,
+} from '../board/boardSlice';
 import { isMoveLegal } from './pieceUtil';
 import { getPieceImage } from './pieceImages';
-import { getSquareFromMousePos } from '../../../utilGeneral/utilGeneral';
+import {
+  getSquareFromMousePos,
+  getAdjustedCoords,
+} from '../../../utilGeneral/utilGeneral';
 import styles from './Piece.module.scss';
 
 const PieceDraggable = (props) => {
   const {
-    windowHeight,
-    posX,
-    posY,
     board,
     movingPieceStartingPos,
     movingPiece,
     isMouseDown,
     kingStuff,
+    positionInfo,
   } = props;
   const dispatch = useDispatch();
   if (!isMouseDown || movingPiece === 0) return null;
 
+  const pieceImage = getPieceImage(movingPiece);
+  const [adjustedX, adjustedY] = getAdjustedCoords(positionInfo);
+
   const onMouseUp = () => {
-    const curSquare = getSquareFromMousePos(props);
+    const curSquare = getSquareFromMousePos(positionInfo);
     if (curSquare == null) {
       dispatch(illegalMove());
     } else {
@@ -41,6 +50,7 @@ const PieceDraggable = (props) => {
             isCastling: isCastling || false,
           })
         );
+        dispatch(emitSocketEvent({ event: 'processMove' }));
       } else {
         dispatch(illegalMove());
       }
@@ -48,13 +58,6 @@ const PieceDraggable = (props) => {
     dispatch(setMouseDown(false));
   };
 
-  const pieceImage = getPieceImage(movingPiece);
-  // TODO: no hardcoding
-  const adjustedX = Math.min(
-    posX - (windowHeight * 0.1125) / 2,
-    windowHeight * 0.9
-  );
-  const adjustedY = posY - (windowHeight * 0.1125) / 2;
   return (
     <div
       className={styles.pieceDraggable}

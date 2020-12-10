@@ -13,6 +13,7 @@ import {
   selectHasWhiteRookRMoved,
   selectHasBlackRookLMoved,
   selectHasBlackRookRMoved,
+  selectPlayerColor,
 } from './boardSlice';
 import {
   useWindowSize,
@@ -45,6 +46,19 @@ const Board = () => {
     hasBlackRookLMoved,
     hasBlackRookRMoved,
   };
+  const playerColor = useSelector(selectPlayerColor);
+  const boardContainerPadding = 20;
+  const boardPadding = 20;
+  const boardHeight =
+    windowHeight - boardPadding * 2 - boardContainerPadding * 2;
+  const positionInfo = {
+    boardContainerPadding,
+    boardPadding,
+    boardHeight,
+    mouseX,
+    mouseY,
+  };
+
   return (
     <div
       className={styles.mainContainer}
@@ -52,29 +66,36 @@ const Board = () => {
       onMouseUp={() => dispatch(setMouseDown(false))}
       onMouseLeave={() => dispatch(setMouseDown(false))}
     >
-      <div className={styles.board}>
-        <PieceDraggable
-          windowWidth={windowWidth}
-          windowHeight={windowHeight}
-          posX={mouseX}
-          posY={mouseY}
-          board={board}
-          isMouseDown={isMouseDown}
-          movingPiece={movingPiece}
-          movingPieceStartingPos={movingPieceStartingPos}
-          kingStuff={kingStuff}
-        />
-        <RowVariation2 row={'8'} />
-        <RowVariation1 row={'7'} />
-        <RowVariation2 row={'6'} />
-        <RowVariation1 row={'5'} />
-        <RowVariation2 row={'4'} />
-        <RowVariation1 row={'3'} />
-        <RowVariation2 row={'2'} />
-        <RowVariation1 row={'1'} />
-      </div>
-      <div>
-        mouseX: {mouseX}, mouseY: {mouseY}
+      <div
+        className={styles.boardContainer}
+        style={{ padding: boardContainerPadding }}
+      >
+        <div
+          className={styles.board}
+          style={{
+            'min-width': boardHeight,
+            'max-width': boardHeight,
+            height: boardHeight,
+            padding: boardPadding,
+          }}
+        >
+          <PieceDraggable
+            board={board}
+            isMouseDown={isMouseDown}
+            movingPiece={movingPiece}
+            movingPieceStartingPos={movingPieceStartingPos}
+            kingStuff={kingStuff}
+            positionInfo={positionInfo}
+          />
+          <RowVariation2 row={'8'} boardHeight={boardHeight} />
+          <RowVariation1 row={'7'} boardHeight={boardHeight} />
+          <RowVariation2 row={'6'} boardHeight={boardHeight} />
+          <RowVariation1 row={'5'} boardHeight={boardHeight} />
+          <RowVariation2 row={'4'} boardHeight={boardHeight} />
+          <RowVariation1 row={'3'} boardHeight={boardHeight} />
+          <RowVariation2 row={'2'} boardHeight={boardHeight} />
+          <RowVariation1 row={'1'} boardHeight={boardHeight} />
+        </div>
       </div>
     </div>
   );

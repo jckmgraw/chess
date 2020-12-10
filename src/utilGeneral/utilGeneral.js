@@ -25,17 +25,31 @@ export const useMousePosition = () => {
   return mousePos;
 };
 
-export const getSquareFromMousePos = (data) => {
-  const { windowWidth, windowHeight, posX, posY } = data;
-  const border = 20; // TODO: move to ENV
-  const squareWidth = windowHeight * 0.1125;
+export const getSquareFromMousePos = (positionInfo) => {
+  const {
+    boardContainerPadding,
+    boardPadding,
+    boardHeight,
+    mouseX,
+    mouseY,
+  } = positionInfo;
+  const squareWidth = boardHeight / 8;
+  const border = boardContainerPadding + boardPadding;
 
-  const rowInverted = Math.floor((posY - border) / squareWidth);
+  const rowInverted = Math.floor((mouseY - border) / squareWidth);
   const row = Math.abs(8 - rowInverted);
 
-  const colTemp = Math.floor((posX - border) / squareWidth);
+  const colTemp = Math.floor((mouseX - border) / squareWidth);
   const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
   const col = letters[colTemp];
   if (col == null || row == null) return null;
   return `${col}${row}`;
+};
+
+export const getAdjustedCoords = (positionInfo) => {
+  const { boardHeight, mouseX, mouseY } = positionInfo;
+  const pieceSize = boardHeight / 8;
+  const adjustedX = mouseX - pieceSize / 2;
+  const adjustedY = mouseY - pieceSize / 2;
+  return [adjustedX, adjustedY];
 };
