@@ -8,7 +8,6 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 - TypeScript
 - unit tests, general testing
 - improve mouse dragging piece off board
-- swap black/white
 - En Passant, pawn upgrade
 - check, checkmate, stalemate, draw
 - basic game analytics
