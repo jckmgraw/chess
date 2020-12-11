@@ -3,8 +3,8 @@ import Piece from '../piece/Piece';
 import styles from './Board.module.scss';
 
 const Row = (props) => {
-  const { row, height, color } = props;
-  const rowHeight = height / 8;
+  const { row, boardSize, color } = props;
+  const rowHeight = boardSize / 8;
   let letters, isWhiteSquare;
   if (color === 'white') {
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -39,31 +39,31 @@ const Row = (props) => {
 };
 
 const BoardOrientation = (props) => {
-  const { boardHeight, playerColor } = props;
+  const { boardSize, playerColor } = props;
   if (playerColor === 'white') {
     return (
       <div>
-        <Row row={'8'} height={boardHeight} color={playerColor} />
-        <Row row={'7'} height={boardHeight} color={playerColor} />
-        <Row row={'6'} height={boardHeight} color={playerColor} />
-        <Row row={'5'} height={boardHeight} color={playerColor} />
-        <Row row={'4'} height={boardHeight} color={playerColor} />
-        <Row row={'3'} height={boardHeight} color={playerColor} />
-        <Row row={'2'} height={boardHeight} color={playerColor} />
-        <Row row={'1'} height={boardHeight} color={playerColor} />
+        <Row row={'8'} boardSize={boardSize} color={playerColor} />
+        <Row row={'7'} boardSize={boardSize} color={playerColor} />
+        <Row row={'6'} boardSize={boardSize} color={playerColor} />
+        <Row row={'5'} boardSize={boardSize} color={playerColor} />
+        <Row row={'4'} boardSize={boardSize} color={playerColor} />
+        <Row row={'3'} boardSize={boardSize} color={playerColor} />
+        <Row row={'2'} boardSize={boardSize} color={playerColor} />
+        <Row row={'1'} boardSize={boardSize} color={playerColor} />
       </div>
     );
   } else {
     return (
       <div>
-        <Row row={'1'} height={boardHeight} color={playerColor} />
-        <Row row={'2'} height={boardHeight} color={playerColor} />
-        <Row row={'3'} height={boardHeight} color={playerColor} />
-        <Row row={'4'} height={boardHeight} color={playerColor} />
-        <Row row={'5'} height={boardHeight} color={playerColor} />
-        <Row row={'6'} height={boardHeight} color={playerColor} />
-        <Row row={'7'} height={boardHeight} color={playerColor} />
-        <Row row={'8'} height={boardHeight} color={playerColor} />
+        <Row row={'1'} boardSize={boardSize} color={playerColor} />
+        <Row row={'2'} boardSize={boardSize} color={playerColor} />
+        <Row row={'3'} boardSize={boardSize} color={playerColor} />
+        <Row row={'4'} boardSize={boardSize} color={playerColor} />
+        <Row row={'5'} boardSize={boardSize} color={playerColor} />
+        <Row row={'6'} boardSize={boardSize} color={playerColor} />
+        <Row row={'7'} boardSize={boardSize} color={playerColor} />
+        <Row row={'8'} boardSize={boardSize} color={playerColor} />
       </div>
     );
   }

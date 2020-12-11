@@ -1,5 +1,36 @@
 import ENV from '../../../env';
 
+export const getBoardSizing = ({
+  windowWidth,
+  windowHeight,
+  mouseX,
+  mouseY,
+}) => {
+  const boardContainerPadding = 20;
+  const boardPadding = 20;
+  const boardPaddingTotal = boardPadding * 2 + boardContainerPadding * 2;
+  const boardSize = Math.min(
+    windowWidth - boardPaddingTotal,
+    windowHeight - boardPaddingTotal
+  );
+  let excessX, excessY;
+  if (windowWidth > windowHeight) {
+    excessX = (windowWidth - boardSize) / 2;
+    excessY = boardPaddingTotal / 2;
+  } else {
+    excessX = boardPaddingTotal / 2;
+    excessY = (windowHeight - boardSize) / 2;
+  }
+  const positionInfo = {
+    boardSize,
+    mouseX,
+    mouseY,
+    excessX,
+    excessY,
+  };
+  return { boardContainerPadding, boardSize, boardPadding, positionInfo };
+};
+
 export const initBoard = () => {
   console.log(`env: ${ENV.WHITE_ROOK}`);
   const rookCol = [

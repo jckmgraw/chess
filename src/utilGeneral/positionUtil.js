@@ -26,19 +26,12 @@ export const useMousePosition = () => {
 };
 
 export const getSquareFromMousePos = ({ positionInfo, playerColor }) => {
-  const {
-    boardContainerPadding,
-    boardPadding,
-    boardHeight,
-    mouseX,
-    mouseY,
-  } = positionInfo;
-  const squareWidth = boardHeight / 8;
-  const border = boardContainerPadding + boardPadding;
+  const { boardSize, mouseX, mouseY, excessX, excessY } = positionInfo;
 
   let row, col, letters;
-  const colTemp = Math.floor((mouseX - border) / squareWidth);
-  const rowInverted = Math.floor((mouseY - border) / squareWidth);
+  const squareWidth = boardSize / 8;
+  const colTemp = Math.floor((mouseX - excessX) / squareWidth);
+  const rowInverted = Math.floor((mouseY - excessY) / squareWidth);
   if (playerColor === 'white') {
     row = Math.abs(8 - rowInverted);
     letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -52,9 +45,14 @@ export const getSquareFromMousePos = ({ positionInfo, playerColor }) => {
 };
 
 export const getAdjustedCoords = (positionInfo) => {
-  const { boardHeight, mouseX, mouseY } = positionInfo;
-  const pieceSize = boardHeight / 8;
+  const { boardSize, mouseX, mouseY } = positionInfo;
+  const pieceSize = boardSize / 8;
   const adjustedX = mouseX - pieceSize / 2;
   const adjustedY = mouseY - pieceSize / 2;
   return [adjustedX, adjustedY];
+};
+
+export const getPieceSize = (positionInfo) => {
+  const { boardSize } = positionInfo;
+  return boardSize / 8;
 };

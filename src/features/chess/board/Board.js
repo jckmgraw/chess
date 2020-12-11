@@ -18,15 +18,14 @@ import {
 import {
   useWindowSize,
   useMousePosition,
-} from '../../../utilGeneral/utilGeneral';
+} from '../../../utilGeneral/positionUtil';
 import styles from './Board.module.scss';
 import PieceDraggable from '../piece/PieceDraggable';
+import { getBoardSizing } from './initBoard';
 
-// TODO: have board CSS use ENV vars
-// TODO: encode piece names
 const Board = () => {
   const dispatch = useDispatch();
-  const [, windowHeight] = useWindowSize();
+  const [windowWidth, windowHeight] = useWindowSize();
   const [mouseX, mouseY] = useMousePosition();
   const isMouseDown = useSelector(selectIsMouseDown);
   const movingPiece = useSelector(selectMovingPiece);
@@ -47,17 +46,12 @@ const Board = () => {
     hasBlackRookRMoved,
   };
   const playerColor = useSelector(selectPlayerColor);
-  const boardContainerPadding = 20;
-  const boardPadding = 20;
-  const boardHeight =
-    windowHeight - boardPadding * 2 - boardContainerPadding * 2;
-  const positionInfo = {
+  const {
     boardContainerPadding,
+    boardSize,
     boardPadding,
-    boardHeight,
-    mouseX,
-    mouseY,
-  };
+    positionInfo,
+  } = getBoardSizing({ windowWidth, windowHeight, mouseX, mouseY });
 
   return (
     <div
@@ -73,9 +67,8 @@ const Board = () => {
         <div
           className={styles.board}
           style={{
-            minWidth: boardHeight,
-            maxWidth: boardHeight,
-            height: boardHeight,
+            width: boardSize,
+            height: boardSize,
             padding: boardPadding,
           }}
         >
@@ -88,10 +81,7 @@ const Board = () => {
             positionInfo={positionInfo}
             playerColor={playerColor}
           />
-          <BoardOrientation
-            boardHeight={boardHeight}
-            playerColor={playerColor}
-          />
+          <BoardOrientation boardSize={boardSize} playerColor={playerColor} />
         </div>
       </div>
     </div>

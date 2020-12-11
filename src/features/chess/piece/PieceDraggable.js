@@ -11,7 +11,8 @@ import { getPieceImage } from './pieceImages';
 import {
   getSquareFromMousePos,
   getAdjustedCoords,
-} from '../../../utilGeneral/utilGeneral';
+  getPieceSize,
+} from '../../../utilGeneral/positionUtil';
 import styles from './Piece.module.scss';
 
 const PieceDraggable = (props) => {
@@ -28,6 +29,7 @@ const PieceDraggable = (props) => {
   if (!isMouseDown || movingPiece === 0) return null;
 
   const pieceImage = getPieceImage(movingPiece);
+  const pieceSize = getPieceSize(positionInfo);
   const [adjustedX, adjustedY] = getAdjustedCoords(positionInfo);
 
   const onMouseUp = () => {
@@ -63,7 +65,12 @@ const PieceDraggable = (props) => {
   return (
     <div
       className={styles.pieceDraggable}
-      style={{ left: adjustedX, top: adjustedY }}
+      style={{
+        width: pieceSize,
+        height: pieceSize,
+        left: adjustedX,
+        top: adjustedY,
+      }}
       onMouseUp={() => onMouseUp()}
     >
       <img src={pieceImage} alt="" draggable="false" />
