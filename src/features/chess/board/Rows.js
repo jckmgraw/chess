@@ -54,8 +54,11 @@ export const Row = (props) => {
   const rows = letters.map((letter) => {
     isWhiteSquare = !isWhiteSquare;
     return (
-      <div className={isWhiteSquare ? styles.squareBlack : styles.squareWhite}>
-        <Piece key={`${letter}${row}`} boardPos={`${letter}${row}`} />
+      <div
+        className={isWhiteSquare ? styles.squareBlack : styles.squareWhite}
+        key={`${letter}${row}`}
+      >
+        <Piece boardPos={`${letter}${row}`} />
       </div>
     );
   });
