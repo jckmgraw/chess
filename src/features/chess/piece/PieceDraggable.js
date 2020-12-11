@@ -22,6 +22,7 @@ const PieceDraggable = (props) => {
     isMouseDown,
     kingStuff,
     positionInfo,
+    playerColor,
   } = props;
   const dispatch = useDispatch();
   if (!isMouseDown || movingPiece === 0) return null;
@@ -30,7 +31,8 @@ const PieceDraggable = (props) => {
   const [adjustedX, adjustedY] = getAdjustedCoords(positionInfo);
 
   const onMouseUp = () => {
-    const curSquare = getSquareFromMousePos(positionInfo);
+    const curSquare = getSquareFromMousePos({ positionInfo, playerColor });
+    console.log(`curSquare: ${curSquare}`);
     if (curSquare == null) {
       dispatch(illegalMove());
     } else {

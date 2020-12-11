@@ -1,6 +1,6 @@
 const CONSTANTS = {
-  PIECE_BLACK: 0,
-  PIECE_WHITE: 1,
+  WHITE: 0,
+  BLACK: 1,
 
   WHITE_PAWN: 1,
   WHITE_ROOK: 2,

@@ -7,7 +7,7 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 - [server](https://github.com/jckmgraw/chess-server)
 - TypeScript
 - unit tests, general testing
-- handle mouse dragging piece off board
+- improve mouse dragging piece off board
 - swap black/white
 - En Passant, pawn upgrade
 - check, checkmate, stalemate, draw

@@ -29,7 +29,7 @@ export const boardSlice = createSlice({
     // socket conn
     connStatus: ENV.CONN_STATUS_NO_CONNECTION,
     username: '',
-    playerColor: '',
+    playerColor: 'white',
   },
   reducers: {
     resetBoard: (state) => {

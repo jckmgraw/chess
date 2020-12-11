@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RowVariation1, RowVariation2 } from './Rows';
+import { BoardOrientation, RowVariation1, RowVariation2 } from './Rows';
 import {
   setMouseDown,
   selectBoard,
@@ -26,7 +26,7 @@ import PieceDraggable from '../piece/PieceDraggable';
 // TODO: encode piece names
 const Board = () => {
   const dispatch = useDispatch();
-  const [windowWidth, windowHeight] = useWindowSize();
+  const [, windowHeight] = useWindowSize();
   const [mouseX, mouseY] = useMousePosition();
   const isMouseDown = useSelector(selectIsMouseDown);
   const movingPiece = useSelector(selectMovingPiece);
@@ -73,8 +73,8 @@ const Board = () => {
         <div
           className={styles.board}
           style={{
-            'min-width': boardHeight,
-            'max-width': boardHeight,
+            minWidth: boardHeight,
+            maxWidth: boardHeight,
             height: boardHeight,
             padding: boardPadding,
           }}
@@ -86,15 +86,12 @@ const Board = () => {
             movingPieceStartingPos={movingPieceStartingPos}
             kingStuff={kingStuff}
             positionInfo={positionInfo}
+            playerColor={playerColor}
           />
-          <RowVariation2 row={'8'} boardHeight={boardHeight} />
-          <RowVariation1 row={'7'} boardHeight={boardHeight} />
-          <RowVariation2 row={'6'} boardHeight={boardHeight} />
-          <RowVariation1 row={'5'} boardHeight={boardHeight} />
-          <RowVariation2 row={'4'} boardHeight={boardHeight} />
-          <RowVariation1 row={'3'} boardHeight={boardHeight} />
-          <RowVariation2 row={'2'} boardHeight={boardHeight} />
-          <RowVariation1 row={'1'} boardHeight={boardHeight} />
+          <BoardOrientation
+            boardHeight={boardHeight}
+            playerColor={playerColor}
+          />
         </div>
       </div>
     </div>

@@ -25,7 +25,7 @@ export const useMousePosition = () => {
   return mousePos;
 };
 
-export const getSquareFromMousePos = (positionInfo) => {
+export const getSquareFromMousePos = ({ positionInfo, playerColor }) => {
   const {
     boardContainerPadding,
     boardPadding,
@@ -36,12 +36,17 @@ export const getSquareFromMousePos = (positionInfo) => {
   const squareWidth = boardHeight / 8;
   const border = boardContainerPadding + boardPadding;
 
-  const rowInverted = Math.floor((mouseY - border) / squareWidth);
-  const row = Math.abs(8 - rowInverted);
-
+  let row, col, letters;
   const colTemp = Math.floor((mouseX - border) / squareWidth);
-  const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-  const col = letters[colTemp];
+  const rowInverted = Math.floor((mouseY - border) / squareWidth);
+  if (playerColor === 'white') {
+    row = Math.abs(8 - rowInverted);
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+  } else {
+    row = rowInverted + 1;
+    letters = ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
+  }
+  col = letters[colTemp];
   if (col == null || row == null) return null;
   return `${col}${row}`;
 };
