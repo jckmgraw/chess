@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BoardOrientation, RowVariation1, RowVariation2 } from './Rows';
+import BoardOrientation from './BoardOrientation';
 import {
   setMouseDown,
   selectBoard,
