@@ -5,6 +5,7 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 ### TODO (unordered)
 
 - [server](https://github.com/jckmgraw/chess-server)
+- player lobby
 - TypeScript
 - unit tests, general testing
 - En Passant, pawn upgrade

@@ -58,6 +58,7 @@ const Board = () => {
   // TODO: Causing warning: 'Cannot update a component ('Piece') while
   //       rendering a different component ('Board') - only triggers
   //       first time piece is dragged offscreen
+  //       See: https://github.com/facebook/react/issues/18178
   if (isMouseDown && movingPiece !== 0 && isMouseOutsideOfBoard(positionInfo)) {
     dispatch(setMouseDown(false));
     dispatch(illegalMove());
