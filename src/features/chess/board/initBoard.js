@@ -6,8 +6,8 @@ export const getBoardSizing = ({
   mouseX,
   mouseY,
 }) => {
-  const boardContainerPadding = 20;
-  const boardPadding = 20;
+  const boardContainerPadding = ENV.BOARD_CONTAINER_PADDING;
+  const boardPadding = ENV.BOARD_PADDING;
   const boardPaddingTotal = boardPadding * 2 + boardContainerPadding * 2;
   const boardSize = Math.min(
     windowWidth - boardPaddingTotal,
@@ -27,6 +27,7 @@ export const getBoardSizing = ({
     mouseY,
     excessX,
     excessY,
+    boardPadding,
   };
   return { boardContainerPadding, boardSize, boardPadding, positionInfo };
 };

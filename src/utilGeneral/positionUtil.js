@@ -27,7 +27,6 @@ export const useMousePosition = () => {
 
 export const getSquareFromMousePos = ({ positionInfo, playerColor }) => {
   const { boardSize, mouseX, mouseY, excessX, excessY } = positionInfo;
-
   let row, col, letters;
   const squareWidth = boardSize / 8;
   const colTemp = Math.floor((mouseX - excessX) / squareWidth);
@@ -55,4 +54,24 @@ export const getAdjustedCoords = (positionInfo) => {
 export const getPieceSize = (positionInfo) => {
   const { boardSize } = positionInfo;
   return boardSize / 8;
+};
+
+export const isMouseOutsideOfBoard = (positionInfo) => {
+  const {
+    boardSize,
+    mouseX,
+    mouseY,
+    excessX,
+    excessY,
+    boardPadding,
+  } = positionInfo;
+  if (
+    mouseX < excessX - boardPadding ||
+    mouseX > excessX + boardSize + boardPadding ||
+    mouseY < excessY - boardPadding ||
+    mouseY > excessY + boardSize + boardPadding
+  ) {
+    return true;
+  }
+  return false;
 };

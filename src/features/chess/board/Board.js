@@ -2,6 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import BoardOrientation from './BoardOrientation';
 import {
+  illegalMove,
   setMouseDown,
   selectBoard,
   selectIsMouseDown,
@@ -18,6 +19,7 @@ import {
 import {
   useWindowSize,
   useMousePosition,
+  isMouseOutsideOfBoard,
 } from '../../../utilGeneral/positionUtil';
 import styles from './Board.module.scss';
 import PieceDraggable from '../piece/PieceDraggable';
@@ -53,6 +55,13 @@ const Board = () => {
     positionInfo,
   } = getBoardSizing({ windowWidth, windowHeight, mouseX, mouseY });
 
+  // TODO: Causing warning: 'Cannot update a component ('Piece') while
+  //       rendering a different component ('Board') - only triggers
+  //       first time piece is dragged offscreen
+  if (isMouseDown && movingPiece !== 0 && isMouseOutsideOfBoard(positionInfo)) {
+    dispatch(setMouseDown(false));
+    dispatch(illegalMove());
+  }
   return (
     <div
       className={styles.mainContainer}
