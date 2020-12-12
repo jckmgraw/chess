@@ -1,11 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { loggingMiddleware } from '../middleware/logging';
-import { socketMiddleware, socketInit } from '../middleware/socket';
+import { socketMiddleware } from '../middleware/socket';
+import { socketInit } from '../features/socket/socketHandler';
+import lobbyReducer from '../features/lobby/lobbySlice';
 import boardReducer from '../features/chess/board/boardSlice';
 
 export default configureStore({
   reducer: {
+    lobby: lobbyReducer,
     board: boardReducer,
   },
-  middleware: [socketMiddleware(socketInit()), loggingMiddleware],
+  middleware: [
+    ...getDefaultMiddleware(),
+    socketMiddleware(socketInit()),
+    loggingMiddleware,
+  ],
 });

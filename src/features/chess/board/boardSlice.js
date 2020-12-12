@@ -26,9 +26,10 @@ export const boardSlice = createSlice({
     hasWhiteRookRMoved: false,
     hasBlackRookLMoved: false,
     hasBlackRookRMoved: false,
-    // socket conn
-    connStatus: ENV.CONN_STATUS_NO_CONNECTION,
-    username: '',
+    // check, checkmate
+    isWhiteInCheck: false,
+    isBlackInCheck: false,
+
     playerColor: 'white',
   },
   reducers: {
@@ -82,23 +83,11 @@ export const boardSlice = createSlice({
       state.movingPiece = 0;
       state.movingPieceStartingPos = '';
     },
-    openSocket: (state) => {
-      // handled in socket middleware
-      console.log('openSocket slice');
+    setIsWhiteInCheck: (state, action) => {
+      state.isWhiteInCheck = action.payload;
     },
-    closeSocket: (state) => {
-      // handled in socket middleware
-      console.log('closeSocket slice');
-    },
-    emitSocketEvent: (state) => {
-      // handled in socket middleware
-    },
-    setConnStatus: (state, action) => {
-      console.log(`connStatus: ${action.payload}`);
-      state.connStatus = action.payload;
-    },
-    setUsername: (state, action) => {
-      state.username = action.payload;
+    setIsBlackInCheck: (state, action) => {
+      state.isBlackInCheck = action.payload;
     },
     setPlayerColor: (state, action) => {
       state.playerColor = action.payload;
@@ -113,12 +102,11 @@ export const {
   setMovingPieceStartingPos,
   movePiece,
   setMouseDown,
+
   illegalMove,
-  openSocket,
-  closeSocket,
-  emitSocketEvent,
-  setConnStatus,
-  setUsername,
+  setIsWhiteInCheck,
+  setIsBlackInCheck,
+
   setPlayerColor,
 } = boardSlice.actions;
 
@@ -139,7 +127,9 @@ export const selectHasBlackRookLMoved = (state) =>
 export const selectHasBlackRookRMoved = (state) =>
   state.board.hasBlackRookRMoved;
 
-export const selectUsername = (state) => state.board.username;
+export const selectIsWhiteInCheck = (state) => state.board.isWhiteInCheck;
+export const selectIsBlackInCheck = (state) => state.board.isBlackInCheck;
+
 export const selectPlayerColor = (state) => state.board.playerColor;
 
 export default boardSlice.reducer;

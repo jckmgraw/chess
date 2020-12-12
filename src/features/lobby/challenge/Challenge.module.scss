@@ -1,0 +1,49 @@
+.popupBox {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  width: 700px;
+  border: 2px solid brown;
+}
+
+.titleText {
+  padding-top: 50px;
+  font-size: 40px;
+  font-family: 'JetBrains Mono', monospace;
+  color: brown;
+}
+
+.smallText {
+  font-size: 10px;
+  font-family: 'JetBrains Mono', monospace;
+  color: brown;
+}
+
+.buttonRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: auto;
+  padding-top: 80px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  width: 200px;
+  height: 30px;
+  border: 2px solid brown;
+  padding: 8px;
+  align-items: center;
+  color: brown;
+}
+
+.spaceBetweenButtons {
+  width: 30px;
+}
+
+.button:hover {
+  cursor: pointer;
+  border: 10px solid brown;
+  padding: 0px;
+  color: darkred;
+}

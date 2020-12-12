@@ -1,11 +1,7 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import {
-  setMouseDown,
-  movePiece,
-  illegalMove,
-  emitSocketEvent,
-} from '../board/boardSlice';
+import { setMouseDown, movePiece, illegalMove } from '../board/boardSlice';
+import { emitSocketEvent } from '../../lobby/lobbySlice';
 import { isMoveLegal } from './pieceUtil';
 import { getPieceImage } from './pieceImages';
 import {
