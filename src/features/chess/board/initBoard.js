@@ -72,7 +72,7 @@ export const initBoard = () => {
     0,
     0,
     ENV.BLACK_PAWN,
-    ENV.BLACK_KING,
+    ENV.BLACK_QUEEN,
   ];
   const col5 = [
     ENV.WHITE_KING,
@@ -82,7 +82,7 @@ export const initBoard = () => {
     0,
     0,
     ENV.BLACK_PAWN,
-    ENV.BLACK_QUEEN,
+    ENV.BLACK_KING,
   ];
   return [
     rookCol,

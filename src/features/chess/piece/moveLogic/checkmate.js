@@ -31,7 +31,7 @@ export const isKingInCheck = ({ board, king }) => {
 };
 
 // TODO
-export const isCheckmate = ({ board, isWhite }) => {
+export const isCheckmate = ({ board, king }) => {
   // Case 1: king is in check (assumed when calling function)
   // Case 2: can king move out of check
   // Case 3: - for each piece 'X'
@@ -42,7 +42,7 @@ export const isCheckmate = ({ board, isWhite }) => {
   let kingPos, kingX, kingY;
   for (let x = 0; x < 8; x++) {
     for (let y = 0; y < 8; y++) {
-      if (board[x][y] === ENV.WHITE_KING) {
+      if (board[x][y] === king) {
         kingPos = getPosFromIndexes([x, y]);
         kingX = x;
         kingY = y;
@@ -56,11 +56,11 @@ export const isCheckmate = ({ board, isWhite }) => {
       if (x >= 0 && x <= 7 && y >= 0 && y <= 7) {
         const pos = getPosFromIndexes([x, y]);
         if (
-          board[x][y] <= 0 &&
+          ((king > 0 && board[x][y] <= 0) || (king < 0 && board[x][y] >= 0)) &&
           isSquareThreatened({
             board,
             pos: pos,
-            piece: ENV.WHITE_KING,
+            piece: king,
           })
         ) {
           return false;
@@ -68,22 +68,26 @@ export const isCheckmate = ({ board, isWhite }) => {
       }
     }
   }
-  const boardCalc = JSON.parse(JSON.stringify(board));
-  // Case 3
+  // Case 3: - for each piece 'X'
+  //         - for each legal move of 'X'
+  //         - is king square threatened?
+  const boardCopy = JSON.parse(JSON.stringify(board));
   for (let x = 0; x < 8; x++) {
     for (let y = 0; y < 8; y++) {
-      const piece = boardCalc[x][y];
+      const piece = boardCopy[x][y];
       const startPos = getPosFromIndexes([x, y]);
-      boardCalc[x][y] = 0;
-      if (piece > 0) {
+      boardCopy[x][y] = 0;
+      if ((king > 0 && piece > 0) || (king < 0 && piece < 0)) {
         for (let x2 = 0; x2 < 8; x2++) {
           for (let y2 = 0; y2 < 8; y2++) {
             const endPos = getPosFromIndexes([x2, y2]);
-            if (isMoveLegal({ board: boardCalc, startPos, endPos, piece })) {
+            if (isMoveLegal({ board: boardCopy, startPos, endPos, piece })) {
+              return false;
             }
           }
         }
       }
     }
   }
+  return true;
 };
