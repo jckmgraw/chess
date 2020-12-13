@@ -31,11 +31,13 @@ export const boardSlice = createSlice({
     isBlackInCheck: false,
 
     playerColor: 'white',
+    whosTurn: 'white',
   },
   reducers: {
     resetBoard: (state) => {
       const board = initBoard();
       state.resetBoard = false;
+      state.whosTurn = 'white';
       state.board = board;
     },
     updateBoard: (state, action) => {
@@ -72,6 +74,8 @@ export const boardSlice = createSlice({
       }
       state.movingPiece = 0;
       state.movingPieceStartingPos = '';
+      if (state.whosTurn === 'white') state.whosTurn = 'black';
+      else if (state.whosTurn === 'black') state.whosTurn = 'white';
       state.board = board;
     },
     setMouseDown: (state, action) => {
@@ -92,6 +96,12 @@ export const boardSlice = createSlice({
     setPlayerColor: (state, action) => {
       state.playerColor = action.payload;
     },
+    toggleTurn: (state) => {
+      state.whosTurn = !state.whosTurn;
+    },
+    setWhosTurn: (state, action) => {
+      state.whosTurn = action.payload;
+    },
   },
 });
 
@@ -108,6 +118,8 @@ export const {
   setIsBlackInCheck,
 
   setPlayerColor,
+  toggleTurn,
+  setWhosTurn,
 } = boardSlice.actions;
 
 export const selectBoard = (state) => state.board.board;
@@ -131,5 +143,6 @@ export const selectIsWhiteInCheck = (state) => state.board.isWhiteInCheck;
 export const selectIsBlackInCheck = (state) => state.board.isBlackInCheck;
 
 export const selectPlayerColor = (state) => state.board.playerColor;
+export const selectWhosTurn = (state) => state.board.whosTurn;
 
 export default boardSlice.reducer;

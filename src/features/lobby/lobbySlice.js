@@ -7,6 +7,7 @@ export const lobbySlice = createSlice({
   initialState: {
     username: '',
     opponent: '',
+    // shouldn't need 'id' now => fix should be server-side
     id: randomstring.generate(),
     players: [],
     addPlayerStatus: ENV.ADD_PLAYER_STATUS_EDITING,
@@ -36,7 +37,6 @@ export const lobbySlice = createSlice({
       state.players = action.payload;
     },
     handleUsernameAlreadyTaken: (state) => {
-      console.log(`The username "${state.username}" is taken`);
       state.isUsernameTaken = true;
       state.addPlayerStatus = ENV.ADD_PLAYER_STATUS_EDITING;
       state.username = '';

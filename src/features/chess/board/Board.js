@@ -15,6 +15,7 @@ import {
   selectHasBlackRookLMoved,
   selectHasBlackRookRMoved,
   selectPlayerColor,
+  selectWhosTurn,
 } from './boardSlice';
 import {
   useWindowSize,
@@ -48,6 +49,7 @@ const Board = () => {
     hasBlackRookRMoved,
   };
   const playerColor = useSelector(selectPlayerColor);
+  const whosTurn = useSelector(selectWhosTurn);
   const {
     boardContainerPadding,
     boardSize,
@@ -90,6 +92,7 @@ const Board = () => {
             kingStuff={kingStuff}
             positionInfo={positionInfo}
             playerColor={playerColor}
+            whosTurn={whosTurn}
           />
           <BoardOrientation boardSize={boardSize} playerColor={playerColor} />
         </div>

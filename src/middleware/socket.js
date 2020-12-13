@@ -8,8 +8,22 @@ export const socketMiddleware = (socket) => () => (next) => (action) => {
   if (action.type === 'lobby/emitSocketEvent') {
     const { event } = action.payload;
     if (event === 'processMove') {
-      const board = store.getState().board.board;
-      socket.emit(event, board);
+      const { board, playerColor, whosTurn } = store.getState().board;
+      const { username, opponent } = store.getState().lobby;
+      let playerWhite, playerBlack;
+      if (playerColor === 'white') {
+        playerWhite = username;
+        playerBlack = opponent;
+      } else {
+        playerWhite = opponent;
+        playerBlack = username;
+      }
+      socket.emit(event, {
+        playerWhite,
+        playerBlack,
+        whosTurn,
+        board,
+      });
     } else if (event === 'addPlayerToLobby') {
       const { username, id } = store.getState().lobby;
       socket.emit(event, { usernameInput: username, id });

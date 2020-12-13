@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setMouseDown, movePiece, illegalMove } from '../board/boardSlice';
 import { emitSocketEvent } from '../../lobby/lobbySlice';
-import { isMoveLegal } from './pieceUtil';
+import { isMoveLegal, getColorFromBoardPos } from './pieceUtil';
 import { getPieceImage } from './pieceImages';
 import {
   getSquareFromMousePos,
@@ -20,6 +20,7 @@ const PieceDraggable = (props) => {
     kingStuff,
     positionInfo,
     playerColor,
+    whosTurn,
   } = props;
   const dispatch = useDispatch();
   if (!isMouseDown || movingPiece === 0) return null;
@@ -30,8 +31,13 @@ const PieceDraggable = (props) => {
 
   const onMouseUp = () => {
     const curSquare = getSquareFromMousePos({ positionInfo, playerColor });
-    console.log(`curSquare: ${curSquare}`);
-    if (curSquare == null) {
+    const pieceColor = getColorFromBoardPos(board, movingPieceStartingPos);
+    console.log(`pieceColor: ${pieceColor}`);
+    if (
+      curSquare == null ||
+      whosTurn !== playerColor ||
+      pieceColor !== playerColor
+    ) {
       dispatch(illegalMove());
     } else {
       const { isLegal, isCastling } = isMoveLegal({

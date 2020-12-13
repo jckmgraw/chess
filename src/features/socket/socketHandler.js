@@ -1,6 +1,11 @@
 import store from '../../app/store';
 import socketIOClient from 'socket.io-client';
-import { updateBoard } from '../chess/board/boardSlice';
+import {
+  updateBoard,
+  resetBoard,
+  setPlayerColor,
+  setWhosTurn,
+} from '../chess/board/boardSlice';
 import {
   setConnStatus,
   setAddPlayerStatus,
@@ -9,6 +14,8 @@ import {
   setChallengeStatus,
   setChallengeStatusAsync,
   setOpponent,
+  setGameStatus,
+  setCountdown,
 } from '../lobby/lobbySlice';
 import ENV from '../../env';
 
@@ -26,9 +33,6 @@ export const socketInit = () => {
   });
   socket.on('reconnecting', (attemptNumber) => {
     store.dispatch(setConnStatus(ENV.CONN_STATUS_CONNECTING));
-  });
-  socket.on('board', (board) => {
-    store.dispatch(updateBoard(board));
   });
   // TODO
   socket.on('setPlayersInLobby', (players) => {
@@ -70,7 +74,6 @@ export const socketInit = () => {
       challengeStatus === ENV.CHALLENGE_STATUS_WAITING &&
       challenger.status !== challengeStatus
     ) {
-      console.log('case 1');
       store.dispatch(setChallengeStatus(challenger.status));
     }
     // Case 2
@@ -86,6 +89,31 @@ export const socketInit = () => {
           status: ENV.CHALLENGE_STATUS_RECEIVED,
         })
       );
+    }
+  });
+  socket.on('game', (data) => {
+    const { status, countdown, playerWhite, playerBlack } = data;
+    const { gameStatus, username } = store.getState().lobby;
+    if (playerWhite === username || playerBlack === username) {
+      store.dispatch(setGameStatus(status));
+      if (status === ENV.GAME_STATUS_GO && gameStatus !== status) {
+        if (playerWhite === username) {
+          store.dispatch(setPlayerColor('white'));
+        } else if (playerBlack === username) {
+          store.dispatch(setPlayerColor('black'));
+        }
+        store.dispatch(resetBoard());
+      } else if (status === ENV.GAME_STATUS_COUNTDOWN) {
+        store.dispatch(setCountdown(countdown));
+      }
+    }
+  });
+  socket.on('board', (data) => {
+    const { playerWhite, playerBlack, board, whosTurn } = data;
+    const { username } = store.getState().lobby;
+    if ([playerWhite, playerBlack].includes(username)) {
+      store.dispatch(setWhosTurn(whosTurn));
+      store.dispatch(updateBoard(board));
     }
   });
   socket.on('serverError', (data) => {

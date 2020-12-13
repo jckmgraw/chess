@@ -1,13 +1,18 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { emitSocketEvent, setChallengeStatus } from '../lobbySlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  emitSocketEvent,
+  setChallengeStatus,
+  selectCountdown,
+} from '../lobbySlice';
 import styles from './Challenge.module.scss';
 import ENV from '../../../env';
 
 // TODO: cleanup
 const Challenge = (props) => {
-  const { challengeStatus, opponent, countdown } = props;
+  const { challengeStatus, opponent, gameStatus } = props;
   const dispatch = useDispatch();
+  const countdown = useSelector(selectCountdown);
   let display;
   if (challengeStatus === ENV.CHALLENGE_STATUS_WAITING) {
     display = (
@@ -85,8 +90,21 @@ const Challenge = (props) => {
         </div>
       </div>
     );
-  } else if (challengeStatus === ENV.CHALLENGE_STATUS_ACCEPTED) {
-    display = <div>challenge status accepted</div>;
+  }
+  // TODO: redundant (GameCountdown.js)
+  else if (challengeStatus === ENV.CHALLENGE_STATUS_ACCEPTED) {
+    let countdownText = '';
+    if (gameStatus === ENV.GAME_STATUS_COUNTDOWN) {
+      countdownText = `in ${countdown} seconds...`;
+    }
+    display = (
+      <div>
+        <div className={styles.titleText}>A countdown</div>
+        <div className={styles.smallText}>
+          Don't let {opponent} slap you {countdownText}
+        </div>
+      </div>
+    );
   }
   return <div className={styles.popupBox}>{display}</div>;
 };

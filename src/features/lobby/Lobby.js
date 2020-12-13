@@ -13,6 +13,7 @@ import { CircularProgress } from '@material-ui/core';
 import UsernameForm from './UsernameForm';
 import Players from './Players';
 import Challenge from './challenge/Challenge';
+import GameCountdown from './challenge/GameCountdown';
 import Board from '../chess/board/Board';
 import ENV from '../../env';
 import styles from './Lobby.module.scss';
@@ -30,6 +31,7 @@ const Lobby = () => {
     if (addPlayerStatus === ENV.ADD_PLAYER_STATUS_EDITING) {
       display = <UsernameForm />;
     } else if (addPlayerStatus === ENV.ADD_PLAYER_STATUS_WAITING) {
+      // TODO: timeout
       display = <CircularProgress color="inherit" />;
     } else if (addPlayerStatus === ENV.ADD_PLAYER_STATUS_RECEIVED) {
       if (challengeStatus === ENV.CHALLENGE_STATUS_IDLE) {
@@ -41,10 +43,13 @@ const Lobby = () => {
             prevChallengeStatus={prevChallengeStatus}
             opponent={opponent}
             countdown={countdown}
+            gameStatus={gameStatus}
           />
         );
       }
     }
+  } else if (gameStatus === ENV.GAME_STATUS_COUNTDOWN) {
+    display = <GameCountdown />;
   } else if (gameStatus === ENV.GAME_STATUS_GO) {
     display = <Board />;
   }

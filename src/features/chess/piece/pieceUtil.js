@@ -134,6 +134,13 @@ export const getIndexesFromPos = (pos) => {
   return [x, y];
 };
 
+export const getColorFromBoardPos = (board, pos) => {
+  const piece = getPieceFromBoardPos(board, pos);
+  if (piece > 0) return 'white';
+  if (piece < 0) return 'black';
+  return 'only use this function in PieceDraggable onMouseUp()';
+};
+
 export const getPosFromIndexes = (indexes) => {
   const [x, y] = indexes;
   return `${letters[x]}${y + 1}`;
