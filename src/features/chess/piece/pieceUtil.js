@@ -5,6 +5,7 @@ import { bishopMove } from './moveLogic/bishopLogic';
 import { queenMove } from './moveLogic/queenLogic';
 import { kingMove } from './moveLogic/kingLogic';
 import ENV from '../../../env';
+import { isKingInCheck } from './moveLogic/checkmate';
 
 const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
@@ -14,10 +15,30 @@ export const isMoveLegal = ({
   endPos,
   kingStuff,
   isCheckingForSquareThreatened,
+  isCalledFromIsKingInCheck = false,
 }) => {
-  if (startPos === endPos) return false;
   const piece = getPieceFromBoardPos(board, startPos);
   const pieceType = Math.abs(piece);
+
+  // Case 1: piece doesn't change position
+  // Case 2: moving piece puts king in check
+  // Case 3: piece specific logic
+
+  // Case 1
+  if (startPos === endPos) return false;
+
+  // Case 2
+  if (!isCalledFromIsKingInCheck) {
+    let king;
+    if (piece > 0) king = ENV.WHITE_KING;
+    else if (piece < 0) king = ENV.BLACK_KING;
+    const diffBoard = JSON.parse(JSON.stringify(board));
+    const [x, y] = getIndexesFromPos(startPos);
+    diffBoard[x][y] = 0;
+    if (isKingInCheck({ board: diffBoard, king })) return false;
+  }
+
+  // Case 3
   if (pieceType === ENV.WHITE_PAWN) {
     return pawnMove({
       board,
@@ -60,10 +81,20 @@ export const isSquaresThreatened = ({ board, positions, piece }) => {
   return false;
 };
 
-export const isSquareThreatened = ({ board, pos, piece }) => {
+export const isSquareThreatened = ({
+  board,
+  pos,
+  piece,
+  isCapturing = true,
+  isCalledFromIsKingInCheck = false,
+}) => {
   const [squareX, squareY] = getIndexesFromPos(pos);
   let boardCopy = JSON.parse(JSON.stringify(board));
-  boardCopy[squareX][squareY] = 0;
+  console.log(`isCapturing: ${isCapturing}`);
+  if (isCapturing) {
+    console.log('isCapturing entered');
+    boardCopy[squareX][squareY] = 0;
+  }
   for (let x = 0; x < 8; x++) {
     for (let y = 0; y < 8; y++) {
       const startPos = getPosFromIndexes([x, y]);
@@ -73,6 +104,7 @@ export const isSquareThreatened = ({ board, pos, piece }) => {
           startPos,
           endPos: pos,
           isCheckingForSquareThreatened: true,
+          isCalledFromIsKingInCheck,
         });
         if (isLegal) {
           return true;
@@ -83,6 +115,7 @@ export const isSquareThreatened = ({ board, pos, piece }) => {
           startPos,
           endPos: pos,
           isCheckingForSquareThreatened: true,
+          isCalledFromIsKingInCheck,
         });
         if (isLegal) {
           return true;
