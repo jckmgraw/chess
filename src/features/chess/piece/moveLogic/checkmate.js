@@ -1,4 +1,3 @@
-import ENV from '../../../../env';
 import {
   getPosFromIndexes,
   isMoveLegal,
@@ -30,13 +29,17 @@ export const isKingInCheck = ({ board, king }) => {
   return false;
 };
 
-// TODO
 export const isCheckmate = ({ board, king }) => {
-  // Case 1: king is in check (assumed when calling function)
+  // Case 1: king is in check
   // Case 2: can king move out of check
   // Case 3: - for each piece 'X'
   //         - for each legal move of 'X'
   //         - is king square threatened?
+
+  // Case 1
+  if (!isKingInCheck({ board, king })) {
+    return false;
+  }
 
   // Case 2
   let kingPos, kingX, kingY;
@@ -68,9 +71,8 @@ export const isCheckmate = ({ board, king }) => {
       }
     }
   }
-  // Case 3: - for each piece 'X'
-  //         - for each legal move of 'X'
-  //         - is king square threatened?
+
+  // Case 3
   const boardCopy = JSON.parse(JSON.stringify(board));
   for (let x = 0; x < 8; x++) {
     for (let y = 0; y < 8; y++) {

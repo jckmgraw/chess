@@ -33,8 +33,10 @@ export const isMoveLegal = ({
     if (piece > 0) king = ENV.WHITE_KING;
     else if (piece < 0) king = ENV.BLACK_KING;
     const diffBoard = JSON.parse(JSON.stringify(board));
-    const [x, y] = getIndexesFromPos(startPos);
-    diffBoard[x][y] = 0;
+    const [startX, startY] = getIndexesFromPos(startPos);
+    const [endX, endY] = getIndexesFromPos(endPos);
+    diffBoard[startX][startY] = 0;
+    diffBoard[endX][endY] = piece;
     if (isKingInCheck({ board: diffBoard, king })) return false;
   }
 
