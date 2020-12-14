@@ -116,10 +116,11 @@ export const socketInit = () => {
     if ([playerWhite, playerBlack].includes(username)) {
       store.dispatch(setWhosTurn(whosTurn));
       store.dispatch(updateBoard(board));
-      // let king = ENV.BLACK_KING;
-      // if (playerColor === 'black') king = ENV.WHITE_KING;
+      let king = ENV.WHITE_KING;
+      if (whosTurn === 'black') king = ENV.BLACK_KING;
       console.log('--------------------------------------');
-      const isWin = isCheckmate({ board: boardCopy, king: ENV.WHITE_KING });
+
+      const isWin = isCheckmate({ board: boardCopy, king });
       console.log(`isWin: ${isWin}`);
       if (isWin) {
         console.log('YOU GOT CHECKMATED');
