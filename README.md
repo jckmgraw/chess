@@ -10,18 +10,19 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 - TypeScript
 - testing
 - En Passant, pawn upgrade
-- check, checkmate, stalemate, draw
+- stalemate, draw
 - basic game analytics
 - handle server connection issues
 - client side caching
 - make it look nice
-  - nav buttons
+  - nav buttons: close out of game, back to username screen
   - display available moves when piece is selected
-  - board & piece color options
   - highlight board tile when dragging piece is over it
-  - quick how to play popup
+  - simple how to play popup (link to google)
   - ...
 - deploy
 - user login, stats, etc.
 - game timer
+- site analyitics
+- secure communication with server
 - ...
