@@ -5,12 +5,12 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 ### TODO (unordered)
 
 - [server](https://github.com/jckmgraw/chess-server)
-- player lobby
-- switch to server side challenge countdown
+- server-side invite expiration countdown
 - TypeScript
 - testing
 - En Passant, pawn upgrade
-- stalemate, draw
+- stalemate, draw, resign, offer draw
+- scale display of lobby to number of players
 - basic game analytics
 - handle server connection issues
 - client side caching
