@@ -8,8 +8,6 @@ import {
   isBlackRookL,
   isBlackRookR,
 } from '../piece/pieceUtil';
-import { isCheckmate } from '../piece/moveLogic/checkmate';
-import { emitSocketEvent, setGameStatus } from '../../lobby/lobbySlice';
 import ENV from '../../../env';
 
 // TODO: move socket logic to new slice

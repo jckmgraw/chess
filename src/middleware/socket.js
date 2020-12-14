@@ -27,6 +27,8 @@ export const socketMiddleware = (socket) => () => (next) => (action) => {
     } else if (event === 'addPlayerToLobby') {
       const { username, id } = store.getState().lobby;
       socket.emit(event, { usernameInput: username, id });
+    } else if (event === 'getLobby') {
+      socket.emit(event);
     } else if (event === 'challenge') {
       const { username } = action.payload;
       const challenger = store.getState().lobby.username;
@@ -54,6 +56,22 @@ export const socketMiddleware = (socket) => () => (next) => (action) => {
           username: challengee,
           status,
         },
+      });
+    } else if (event === 'gameOver') {
+      const { playerColor } = store.getState().board;
+      const { username, opponent } = store.getState().lobby;
+      let playerWhite, playerBlack;
+      if (playerColor === 'white') {
+        playerWhite = username;
+        playerBlack = opponent;
+      } else {
+        playerWhite = opponent;
+        playerBlack = username;
+      }
+      socket.emit('gameOver', {
+        playerWhite,
+        playerBlack,
+        status: 'TODO: stalemate, draw, checkmate',
       });
     }
   } else if (action.type === 'lobby/closeSocket' && socket.connected) {

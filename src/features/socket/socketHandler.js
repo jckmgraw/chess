@@ -16,6 +16,7 @@ import {
   setOpponent,
   setGameStatus,
   setCountdown,
+  emitSocketEvent,
 } from '../lobby/lobbySlice';
 import { isCheckmate } from '../chess/piece/moveLogic/checkmate';
 import ENV from '../../env';
@@ -119,12 +120,19 @@ export const socketInit = () => {
       let king = ENV.WHITE_KING;
       if (whosTurn === 'black') king = ENV.BLACK_KING;
       console.log('--------------------------------------');
-
       const isWin = isCheckmate({ board: boardCopy, king });
-      console.log(`isWin: ${isWin}`);
       if (isWin) {
         console.log('YOU GOT CHECKMATED');
+        store.dispatch(setGameStatus(ENV.GAME_STATUS_LOSS));
+        store.dispatch(emitSocketEvent({ event: 'gameOver' }));
       }
+    }
+  });
+  socket.on('gameOver', (data) => {
+    const { playerWhite, playerBlack } = data;
+    const { username } = store.getState().lobby;
+    if ([playerWhite, playerBlack].includes(username)) {
+      store.dispatch(setGameStatus(ENV.GAME_STATUS_WIN));
     }
   });
   socket.on('serverError', (data) => {

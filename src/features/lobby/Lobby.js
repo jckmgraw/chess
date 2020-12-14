@@ -14,6 +14,7 @@ import UsernameForm from './UsernameForm';
 import Players from './Players';
 import Challenge from './challenge/Challenge';
 import GameCountdown from './challenge/GameCountdown';
+import GameOver from './challenge/GameOver';
 import Board from '../chess/board/Board';
 import ENV from '../../env';
 import styles from './Lobby.module.scss';
@@ -52,6 +53,13 @@ const Lobby = () => {
     display = <GameCountdown />;
   } else if (gameStatus === ENV.GAME_STATUS_GO) {
     display = <Board />;
+  } else if (
+    gameStatus === ENV.GAME_STATUS_WIN ||
+    gameStatus === ENV.GAME_STATUS_LOSS
+  ) {
+    display = <GameOver />;
+  } else {
+    display = <div>TODO: display a nicer random error message</div>;
   }
   return <div className={styles.lobbyContainer}>{display}</div>;
 };

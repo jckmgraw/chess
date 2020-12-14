@@ -81,10 +81,7 @@ export const isCheckmate = ({ board, king }) => {
       }
     }
   }
-
-  // Case 3: - for each piece 'X'
-  //         - for each legal move of 'X'
-  //         - is king square threatened?
+  // Case 3
   const boardCopy = JSON.parse(JSON.stringify(board));
   for (let x = 0; x < 8; x++) {
     for (let y = 0; y < 8; y++) {

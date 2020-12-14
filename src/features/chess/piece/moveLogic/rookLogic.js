@@ -49,7 +49,6 @@ export const rookMove = ({ board, startPos, endPos, piece }) => {
   if ((piece > 0 && endPosPiece > 0) || (piece < 0 && endPosPiece < 0)) {
     return { isLegal: false };
   } else {
-    console.log('legal rook move');
     return { isLegal: true };
   }
 };
