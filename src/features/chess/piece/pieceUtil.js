@@ -68,7 +68,7 @@ export const isMoveLegal = ({
     });
   } else {
     console.error(
-      `unknown piece in isMoveLegal(): startPos: ${startPos}, endPos: ${endPos}`
+      `unknown piece '${piece}' in isMoveLegal(): startPos: ${startPos}, endPos: ${endPos}`
     );
     return { isLegal: false, isCastling: false };
   }
@@ -83,17 +83,15 @@ export const isSquaresThreatened = ({ board, positions, piece }) => {
   return false;
 };
 
-export const isSquareThreatened = ({
-  board,
-  pos,
-  piece,
-  isCapturing = true,
-  isCalledFromIsKingInCheck = false,
-}) => {
+export const isSquareThreatened = (params) => {
+  const { board, pos, piece, isCapturing, isCalledFromIsKingInCheck } = params;
   const [squareX, squareY] = getIndexesFromPos(pos);
   let boardCopy = JSON.parse(JSON.stringify(board));
-  console.log(`isCapturing: ${isCapturing}`);
-  if (isCapturing) {
+  let tempIsCapturing = true;
+  if (!isCapturing) {
+    tempIsCapturing = false;
+  }
+  if (tempIsCapturing === true) {
     console.log('isCapturing entered');
     boardCopy[squareX][squareY] = 0;
   }
@@ -101,6 +99,7 @@ export const isSquareThreatened = ({
     for (let y = 0; y < 8; y++) {
       const startPos = getPosFromIndexes([x, y]);
       if (piece > 0 && board[x][y] < 0) {
+        // console.log(`board[${x}][${y}] = ${piece}`);
         const { isLegal } = isMoveLegal({
           board: boardCopy,
           startPos,
@@ -112,6 +111,7 @@ export const isSquareThreatened = ({
           return true;
         }
       } else if (piece < 0 && board[x][y] > 0) {
+        // console.log(`board[${x}][${y}] = ${piece}`);
         const { isLegal } = isMoveLegal({
           board: boardCopy,
           startPos,
