@@ -28,8 +28,10 @@ const UsernameForm = () => {
     <div className={styles.usernameForm}>
       <div className={styles.welcomeText}>Chess by Jack McGraw</div>
       <div className={styles.smallText}>
-        Alternatively, feel free to{' '}
-        <a href="https://www.chess.com/member/jckmcgraw">add me</a> on chess.com
+        Enter a username,{' '}
+        <a href="https://www.chess.com/member/jckmcgraw">add me</a> on
+        chess.com, or check out the{' '}
+        <a href="https://chess-by-jack-mcgraw.herokuapp.com/">code</a>.
       </div>
       <form
         className={styles.formRow}

@@ -23,7 +23,17 @@ import ENV from '../../env';
 
 export const socketInit = () => {
   console.log('socketInit()');
-  const socket = socketIOClient(ENV.SOCKET_IO_ENDPOINT);
+  const socket = socketIOClient(ENV.SOCKET_IO_ENDPOINT, {
+    // withCredentials: true,
+    secure: true,
+    transportOptions: {
+      polling: {
+        extraHeaders: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      },
+    },
+  });
   socket.on('connect', () => {
     store.dispatch(setConnStatus(ENV.CONN_STATUS_CONNECTED));
   });
