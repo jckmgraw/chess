@@ -29,9 +29,22 @@ const UsernameForm = () => {
       <div className={styles.welcomeText}>Chess by Jack McGraw</div>
       <div className={styles.smallText}>
         Enter a username,{' '}
-        <a href="https://www.chess.com/member/jckmcgraw">add me</a> on
-        chess.com, or check out the{' '}
-        <a href="https://chess-by-jack-mcgraw.herokuapp.com/">code</a>.
+        <a
+          href="https://www.chess.com/member/jckmcgraw"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          add me
+        </a>{' '}
+        on chess.com, or check out the{' '}
+        <a
+          href="https://github.com/jckmgraw/chess-client"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          code
+        </a>
+        .
       </div>
       <form
         className={styles.formRow}
