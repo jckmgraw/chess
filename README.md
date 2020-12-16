@@ -7,7 +7,7 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 - [server](https://github.com/jckmgraw/chess-server)
 - server-side invite expiration countdown
 - TypeScript
-- testing
+- bugs
 - En Passant, pawn upgrade
 - stalemate, draw, resign, offer draw
 - basic game analytics
@@ -20,9 +20,9 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
   - highlight board tile when dragging piece is over it
   - simple how to play popup (link to google)
   - max length for username
+  - display pieces taken
   - ...
 - user login, stats, etc.
 - game timer
-- site analyitics
 - socket.io security
 - ...

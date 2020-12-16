@@ -214,14 +214,14 @@ export const getNewBoardFromMove = ({
     // black
     else if (endY === 7) {
       // kingside
-      if (endX === 1) {
-        boardCopy[0][endY] = 0;
-        boardCopy[2][endY] = ENV.BLACK_ROOK;
+      if (endX === 6) {
+        boardCopy[7][endY] = 0;
+        boardCopy[5][endY] = ENV.BLACK_ROOK;
       }
       // queenside
-      else if (endX === 5) {
-        boardCopy[7][endY] = 0;
-        boardCopy[4][endY] = ENV.BLACK_ROOK;
+      else if (endX === 2) {
+        boardCopy[0][endY] = 0;
+        boardCopy[3][endY] = ENV.BLACK_ROOK;
       }
     } else {
       console.error('getnewBoardFromMove() isCastling flag');

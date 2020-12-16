@@ -1,4 +1,6 @@
 const CONSTANTS = {
+  IS_DEVELOPMENT: true,
+
   WHITE: 0,
   BLACK: 1,
 
@@ -16,8 +18,8 @@ const CONSTANTS = {
   BLACK_QUEEN: -5,
   BLACK_KING: -6,
 
-  // SOCKET_IO_ENDPOINT: 'http://localhost:3069',
-  SOCKET_IO_ENDPOINT: 'https://chess-by-jack-mcgraw.herokuapp.com',
+  SOCKET_IO_ENDPOINT_DEV: 'http://localhost:3000',
+  SOCKET_IO_ENDPOINT_PROD: 'https://chess-by-jack-mcgraw.herokuapp.com',
   CONN_STATUS_CONNECTED: 0,
   CONN_STATUS_NO_CONNECTION: -1,
   CONN_STATUS_CONNECTING: 1,
