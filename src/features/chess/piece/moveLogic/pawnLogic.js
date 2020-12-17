@@ -31,9 +31,12 @@ export const pawnMove = ({
   // Case 3: Standard diagonal capture
   // Case 4: En Passant (TODO)
   // Case 5: Pawn upgrade (TODO)
+  let isPawnUpgrade = false;
+
+  // WHITE
   if (piece === ENV.WHITE_PAWN) {
     if (startY > endY) {
-      return { isLegal: false };
+      return { isLegal: false, isPawnUpgrade };
     }
     // Case 3
     if (startX !== endX) {
@@ -42,9 +45,9 @@ export const pawnMove = ({
         Math.abs(startX - endX) === 1 &&
         endY - startY === 1
       ) {
-        return { isLegal: true };
+        return { isLegal: true, isPawnUpgrade };
       }
-      return { isLegal: false };
+      return { isLegal: false, isPawnUpgrade };
     }
     // Cases 1 & 2
     if (
@@ -53,12 +56,18 @@ export const pawnMove = ({
         Math.abs(endY - startY) === 1) &&
       board[startX][startY + 1] === 0
     ) {
-      return { isLegal: true };
+      // Case 5
+      if (endY === 7) {
+        isPawnUpgrade = true;
+      }
+      return { isLegal: true, isPawnUpgrade };
     }
-    return { isLegal: false };
-  } else if (piece === ENV.BLACK_PAWN) {
+    return { isLegal: false, isPawnUpgrade };
+  }
+  // BLACK
+  else if (piece === ENV.BLACK_PAWN) {
     if (startY < endY) {
-      return { isLegal: false };
+      return { isLegal: false, isPawnUpgrade };
     }
     // Case 3
     if (startX !== endX) {
@@ -67,9 +76,9 @@ export const pawnMove = ({
         Math.abs(startX - endX) === 1 &&
         Math.abs(endY - startY) === 1
       ) {
-        return { isLegal: true };
+        return { isLegal: true, isPawnUpgrade };
       }
-      return { isLegal: false };
+      return { isLegal: false, isPawnUpgrade };
     }
     // Cases 1 & 2
     if (
@@ -78,11 +87,15 @@ export const pawnMove = ({
         Math.abs(endY - startY) === 1) &&
       board[startX][startY - 1] === 0
     ) {
-      return { isLegal: true };
+      // Case 5
+      if (endY === 0) {
+        isPawnUpgrade = true;
+      }
+      return { isLegal: true, isPawnUpgrade };
     }
-    return { isLegal: false };
+    return { isLegal: false, isPawnUpgrade };
   } else {
     console.error('unknown piece type');
-    return { isLegal: false };
+    return { isLegal: false, isPawnUpgrade };
   }
 };

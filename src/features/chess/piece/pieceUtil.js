@@ -191,8 +191,9 @@ export const getNewBoardFromMove = ({
   startPos,
   endPos,
   isCastling,
+  isPawnUpgrade,
 }) => {
-  const piece = getPieceFromBoardPos(board, startPos);
+  let piece = getPieceFromBoardPos(board, startPos);
   const [startX, startY] = getIndexesFromPos(startPos);
   const [endX, endY] = getIndexesFromPos(endPos);
   const boardCopy = board;
@@ -225,6 +226,15 @@ export const getNewBoardFromMove = ({
       }
     } else {
       console.error('getnewBoardFromMove() isCastling flag');
+    }
+  } else if (isPawnUpgrade) {
+    // white
+    if (endY === 7) {
+      piece = ENV.WHITE_QUEEN;
+    }
+    // black
+    else if (endY === 0) {
+      piece = ENV.BLACK_QUEEN;
     }
   }
   boardCopy[startX][startY] = 0;

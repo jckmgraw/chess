@@ -51,13 +51,20 @@ export const boardSlice = createSlice({
       state.movingPieceStartingPos = action.payload;
     },
     movePiece: (state, action) => {
-      const { endPos, startPos, piece, isCastling } = action.payload;
+      const {
+        endPos,
+        startPos,
+        piece,
+        isCastling,
+        isPawnUpgrade,
+      } = action.payload;
       console.log(`movePiece() endPos: ${endPos}`);
       const board = getNewBoardFromMove({
         board: state.board,
         startPos: state.movingPieceStartingPos,
         endPos,
         isCastling,
+        isPawnUpgrade,
       });
       if (piece === ENV.WHITE_KING) {
         state.hasWhiteKingMoved = true;

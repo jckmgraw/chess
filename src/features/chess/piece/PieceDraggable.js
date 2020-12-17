@@ -40,7 +40,7 @@ const PieceDraggable = (props) => {
     ) {
       dispatch(illegalMove());
     } else {
-      const { isLegal, isCastling } = isMoveLegal({
+      const { isLegal, isCastling, isPawnUpgrade } = isMoveLegal({
         board,
         startPos: movingPieceStartingPos,
         endPos: curSquare,
@@ -54,6 +54,7 @@ const PieceDraggable = (props) => {
             piece: movingPiece,
             startPos: movingPieceStartingPos,
             isCastling: isCastling || false,
+            isPawnUpgrade,
           })
         );
         dispatch(emitSocketEvent({ event: 'processMove' }));
