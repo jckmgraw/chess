@@ -70,7 +70,7 @@ export const isCheckmate = ({ board, king }) => {
               board,
               pos: pos,
               piece: king,
-              isCapturing: false,
+              isCapturing: true,
               isCalledFromIsKingInCheck: false,
             })
           ) {
