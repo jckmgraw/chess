@@ -29,9 +29,10 @@ export const boardSlice = createSlice({
     // check, checkmate
     isWhiteInCheck: false,
     isBlackInCheck: false,
-
+    // moves
     playerColor: 'white',
     whosTurn: 'white',
+    recentMove: [],
   },
   reducers: {
     resetBoard: (state) => {
@@ -79,6 +80,7 @@ export const boardSlice = createSlice({
       } else if (isBlackRookR(startPos, piece)) {
         state.hasBlackRookRMoved = true;
       }
+      state.recentMove = [startPos, endPos];
       state.movingPiece = 0;
       state.movingPieceStartingPos = '';
       if (state.whosTurn === 'white') state.whosTurn = 'black';
@@ -109,6 +111,9 @@ export const boardSlice = createSlice({
     setWhosTurn: (state, action) => {
       state.whosTurn = action.payload;
     },
+    setRecentMove: (state, action) => {
+      state.recentMove = action.payload;
+    },
   },
 });
 
@@ -127,6 +132,7 @@ export const {
   setPlayerColor,
   toggleTurn,
   setWhosTurn,
+  setRecentMove,
 } = boardSlice.actions;
 
 export const selectBoard = (state) => state.board.board;
@@ -151,5 +157,6 @@ export const selectIsBlackInCheck = (state) => state.board.isBlackInCheck;
 
 export const selectPlayerColor = (state) => state.board.playerColor;
 export const selectWhosTurn = (state) => state.board.whosTurn;
+export const selectRecentMove = (state) => state.board.recentMove;
 
 export default boardSlice.reducer;

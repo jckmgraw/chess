@@ -1,9 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Piece from '../piece/Piece';
 import styles from './Board.module.scss';
+import { selectRecentMove, selectMovingPieceStartingPos } from './boardSlice';
 
 const Row = (props) => {
   const { row, boardSize, color } = props;
+  const recentMove = useSelector(selectRecentMove);
+  const movingPieceStartingPos = useSelector(selectMovingPieceStartingPos);
   const rowHeight = boardSize / 8;
   let letters, isWhiteSquare;
   if (color === 'white') {
@@ -22,12 +26,22 @@ const Row = (props) => {
 
   const rows = letters.map((letter) => {
     isWhiteSquare = !isWhiteSquare;
+    const boardPos = `${letter}${row}`;
+    let isHighlight = false;
+    let squareStyle;
+    if (recentMove.includes(boardPos) || movingPieceStartingPos === boardPos) {
+      isHighlight = true;
+    }
+    if (isWhiteSquare) {
+      if (isHighlight) squareStyle = styles.squareWhiteHighlight;
+      else squareStyle = styles.squareWhite;
+    } else {
+      if (isHighlight) squareStyle = styles.squareBlackHighlight;
+      else squareStyle = styles.squareBlack;
+    }
     return (
-      <div
-        className={isWhiteSquare ? styles.squareBlack : styles.squareWhite}
-        key={`${letter}${row}`}
-      >
-        <Piece boardPos={`${letter}${row}`} />
+      <div className={squareStyle} key={boardPos}>
+        <Piece boardPos={boardPos} />
       </div>
     );
   });

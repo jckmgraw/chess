@@ -17,11 +17,11 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
   - CSS in lobby is terrible when players exceed window height / width
   - nav buttons: close out of game, back to username screen
   - display available moves when piece is selected
-  - highlight board tile when dragging piece is over it
   - simple how to play popup (link to google)
   - max length for username
   - display pieces taken
   - ...
+- mobile version
 - user login, stats, etc.
 - game timer
 - socket.io security

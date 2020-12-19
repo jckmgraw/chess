@@ -44,7 +44,8 @@ const UsernameForm = () => {
         >
           code
         </a>
-        .
+        {'. '}
+        This app currently only works on a computer.
       </div>
       <form
         className={styles.formRow}

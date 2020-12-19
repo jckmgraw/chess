@@ -30,11 +30,12 @@ const PieceDraggable = (props) => {
   const [adjustedX, adjustedY] = getAdjustedCoords(positionInfo);
 
   const onMouseUp = () => {
-    const curSquare = getSquareFromMousePos({ positionInfo, playerColor });
-    const pieceColor = getColorFromBoardPos(board, movingPieceStartingPos);
+    const startPos = movingPieceStartingPos;
+    const endPos = getSquareFromMousePos({ positionInfo, playerColor });
+    const pieceColor = getColorFromBoardPos(board, startPos);
     console.log(`pieceColor: ${pieceColor}`);
     if (
-      curSquare == null ||
+      endPos == null ||
       whosTurn !== playerColor ||
       pieceColor !== playerColor
     ) {
@@ -42,17 +43,17 @@ const PieceDraggable = (props) => {
     } else {
       const { isLegal, isCastling, isPawnUpgrade } = isMoveLegal({
         board,
-        startPos: movingPieceStartingPos,
-        endPos: curSquare,
+        startPos,
+        endPos,
         piece: movingPiece,
         kingStuff,
       });
       if (isLegal) {
         dispatch(
           movePiece({
-            endPos: curSquare,
+            endPos,
             piece: movingPiece,
-            startPos: movingPieceStartingPos,
+            startPos,
             isCastling: isCastling || false,
             isPawnUpgrade,
           })

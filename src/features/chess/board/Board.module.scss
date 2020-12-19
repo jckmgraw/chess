@@ -27,9 +27,25 @@
   background-color: brown;
 }
 
+.squareBlackHighlight {
+  width: 12.5%;
+  height: 100%;
+  float: left;
+  background-color: brown;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 1);
+}
+
 .squareWhite {
   width: 12.5%;
   height: 100%;
   float: left;
   background-color: burlywood;
+}
+
+.squareWhiteHighlight {
+  width: 12.5%;
+  height: 100%;
+  float: left;
+  background-color: burlywood;
+  box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 1);
 }

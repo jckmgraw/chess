@@ -5,6 +5,7 @@ import {
   resetBoard,
   setPlayerColor,
   setWhosTurn,
+  setRecentMove,
 } from '../chess/board/boardSlice';
 import {
   setConnStatus,
@@ -129,17 +130,17 @@ export const socketInit = () => {
     }
   });
   socket.on('board', (data) => {
-    const { playerWhite, playerBlack, board, whosTurn } = data;
+    const { playerWhite, playerBlack, board, whosTurn, recentMove } = data;
     const { username } = store.getState().lobby;
     const boardCopy = JSON.parse(JSON.stringify(board));
     if ([playerWhite, playerBlack].includes(username)) {
+      store.dispatch(setRecentMove(recentMove));
       store.dispatch(setWhosTurn(whosTurn));
       store.dispatch(updateBoard(board));
       let king = ENV.WHITE_KING;
       if (whosTurn === 'black') king = ENV.BLACK_KING;
       console.log('--------------------------------------');
-      const isWin = isCheckmate({ board: boardCopy, king });
-      if (isWin) {
+      if (isCheckmate({ board: boardCopy, king })) {
         console.log('YOU GOT CHECKMATED');
         store.dispatch(setGameStatus(ENV.GAME_STATUS_LOSS));
         store.dispatch(emitSocketEvent({ event: 'gameOver' }));
