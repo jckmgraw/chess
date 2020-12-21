@@ -1,5 +1,5 @@
 const CONSTANTS = {
-  IS_DEVELOPMENT: true,
+  IS_DEVELOPMENT: false,
 
   WHITE: 0,
   BLACK: 1,

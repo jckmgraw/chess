@@ -6,6 +6,8 @@ import {
   setPlayerColor,
   setWhosTurn,
   setRecentMove,
+  setMovingPieceStartingPos,
+  setMovingPiece,
 } from '../chess/board/boardSlice';
 import {
   setConnStatus,
@@ -21,6 +23,7 @@ import {
 } from '../lobby/lobbySlice';
 import { isCheckmate } from '../chess/piece/moveLogic/checkmate';
 import ENV from '../../env';
+import { getIndexesFromPos } from '../chess/piece/pieceUtil';
 
 export const socketInit = () => {
   console.log('socketInit()');
@@ -131,12 +134,35 @@ export const socketInit = () => {
   });
   socket.on('board', (data) => {
     const { playerWhite, playerBlack, board, whosTurn, recentMove } = data;
+    const {
+      movingPieceStartingPos,
+      playerColor,
+      isMouseDown,
+    } = store.getState().board;
     const { username } = store.getState().lobby;
     const boardCopy = JSON.parse(JSON.stringify(board));
     if ([playerWhite, playerBlack].includes(username)) {
+      const [movingX, movingY] = getIndexesFromPos(movingPieceStartingPos);
+      if (
+        isMouseDown &&
+        movingPieceStartingPos != null &&
+        movingPieceStartingPos.length > 0
+      ) {
+        if (
+          (board[movingX][movingY] < 0 && playerColor === 'white') ||
+          (board[movingX][movingY] > 0 && playerColor === 'black')
+        ) {
+          console.log('bug should be fixed here');
+          store.dispatch(setMovingPiece(0));
+          store.dispatch(setMovingPieceStartingPos(''));
+        } else {
+          console.log('normal move');
+          board[movingX][movingY] = 0;
+        }
+      }
+      store.dispatch(updateBoard(board));
       store.dispatch(setRecentMove(recentMove));
       store.dispatch(setWhosTurn(whosTurn));
-      store.dispatch(updateBoard(board));
       let king = ENV.WHITE_KING;
       if (whosTurn === 'black') king = ENV.BLACK_KING;
       console.log('--------------------------------------');

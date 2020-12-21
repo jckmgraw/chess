@@ -29,8 +29,4 @@ I like to play chess. I am trying to build a vastly simplified [chess.com](https
 
 #### Known Bugs
 
-- "impossible piece capture"
-  - p1 has piece X selected
-  - p2 captures X
-  - p1 retains X
 - sync issues with invites
